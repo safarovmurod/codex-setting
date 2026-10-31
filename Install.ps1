@@ -53,7 +53,7 @@ if ($task) {
 }
 $app = Join-Path $rootPath 'app'
 New-Item -ItemType Directory -Path $app -Force | Out-Null
-foreach ($folder in @('src','payload','profiles','skills','docs','third_party','scripts')) {
+foreach ($folder in @('src','payload','profiles','skills','docs','third_party','scripts','plugins','.agents/plugins')) {
     $from = Join-Path $sourcePath $folder
     $to = Join-Path $app $folder
     if ([IO.Path]::GetFullPath($from) -eq [IO.Path]::GetFullPath($to)) { continue }

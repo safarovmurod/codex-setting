@@ -32,6 +32,15 @@ def main(argv=None):
             marker=load_json(root/'installation.json')
             if not marker or marker.get('product')!='codex-setting':raise ValueError('NO_OWNED_INSTALLATION')
             home=a.codex_home or Path(marker['user_home'])/'.codex'
+            if a.command=='watch':
+                from .watcher import Watcher
+                watcher=Watcher(root,marker['host_id'],lambda:Runtime(root,home))
+                with file_lock(root/'watcher.lock',timeout=.1):
+                    while True:
+                        result=watcher.tick()
+                        if a.once:break
+                        time.sleep(30)
+                print(json.dumps(result,ensure_ascii=True));return
             local_action=a.command=='autorun' and a.action in ['off','status','complete']
             if local_action:
                 runtime=None

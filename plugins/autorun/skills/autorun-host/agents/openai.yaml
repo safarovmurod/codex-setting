@@ -1,0 +1,6 @@
+interface:
+  display_name: "AUTORUN Host"
+  short_description: "AUTORUN дар ҳамин Windows host, аз ПК ё Android Remote"
+  default_prompt: "Use $autorun-host to manage AUTORUN for this exact connected Windows-host task."
+policy:
+  allow_implicit_invocation: false

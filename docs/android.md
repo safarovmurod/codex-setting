@@ -8,3 +8,6 @@
 Ин APK ё patch-и ChatGPT нест. Файлҳои Windows ба storage-и Android нусха намешаванд. Чати мустақили cloud-и бе host аз ин watcher идора намешавад. Барои Android-и пайвастшуда настройкаҳои кор аз host меоянд.
 Баъди санҷиши воқеӣ android-evidence.json дар root-и насб нигоҳ дошта мешавад; то он вақт doctor ҳолати needs_owner_pairing_and_live_test медиҳад.
 Манбаъ: https://learn.chatgpt.com/docs/remote-connections .
+
+## Агар дар ПК бошаду дар Android набошад
+Скилли personal-и маҳаллӣ худ аз худ cloud-плагини ҳисоб намешавад. Барои мобил бастаи plugins/autorun-ро ҳамчун архиви плагин дар ChatGPT → Plugins → Add → Upload plugin archive насб кун. Инро агенти насбкунанда дар UI автоматӣ иҷро мекунад. Архив танҳо manifest ва як скилли explicit-only дорад; personalization, credential ва source-и controller upload намешаванд. Баъди насби cloud-плагини AUTORUN дар Android selector-и @-ро аз нав кушо. Танҳо баъди намоиш ва санҷиши ҳамон host/thread натиҷа тасдиқ мешавад.
