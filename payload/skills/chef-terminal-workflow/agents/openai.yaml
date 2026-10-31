@@ -1,0 +1,6 @@
+interface:
+  display_name: "Chef Terminal Workflow"
+  short_description: "Autonomous terminal work with minimal desktop disruption"
+  default_prompt: "Use $chef-terminal-workflow to complete this authorized local task."
+policy:
+  allow_implicit_invocation: true

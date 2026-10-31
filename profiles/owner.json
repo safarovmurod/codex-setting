@@ -1,0 +1,371 @@
+{
+  "schema": 1,
+  "config": {
+    "project_doc_max_bytes": 65536,
+    "model": "gpt-6.1-sol",
+    "model_reasoning_effort": "high",
+    "service_tier": "default",
+    "desktop": {
+      "followUpQueueMode": "steer",
+      "conversationDetailMode": "STEPS_COMMANDS",
+      "projectlessWorkspaceRoot": "${DOCUMENTS}/Codex",
+      "localeOverride": "ru-RU",
+      "code-review-sidebar-layout": "compact",
+      "git-worktree-root": "${DOCUMENTS}/Codex/worktrees",
+      "worktree-upstream-refresh-mode": "best-effort",
+      "worktree-keep-count": 5,
+      "dictationDictionary": [],
+      "microphoneInputDeviceId": "communications",
+      "keepRemoteControlAwakeWhilePluggedIn": true,
+      "external-agent-import-sync-item-types": "all",
+      "external-agent-import-sync-enabled": true,
+      "agent-usage-reset-enabled": true,
+      "open-in-target-preferences": {
+        "global": "fileManager"
+      }
+    },
+    "windows": {
+      "sandbox": "elevated"
+    },
+    "skills": {
+      "config": [
+        {
+          "path": "${USERPROFILE}/.agents/skills/canvas/SKILL.md",
+          "enabled": false
+        },
+        {
+          "path": "${USERPROFILE}/.agents/skills/sdk/SKILL.md",
+          "enabled": false
+        },
+        {
+          "path": "${USERPROFILE}/.agents/skills/update-cli-config/SKILL.md",
+          "enabled": false
+        },
+        {
+          "path": "${USERPROFILE}/.agents/skills/update-cursor-settings/SKILL.md",
+          "enabled": false
+        },
+        {
+          "path": "${USERPROFILE}/.agents/skills/autoglm-browser-agent/SKILL.md",
+          "enabled": false
+        },
+        {
+          "path": "${USERPROFILE}/.agents/skills/mansur-frontend-mentor/SKILL.md",
+          "enabled": false
+        }
+      ]
+    },
+    "features": {
+      "memories": true,
+      "multi_agent": true
+    },
+    "memories": {
+      "generate_memories": true,
+      "use_memories": true
+    },
+    "tui": {
+      "screen_reader_detection_done": true
+    }
+  },
+  "personal_skills": [
+    "agent-browser",
+    "android-cli",
+    "autoglm-browser-agent",
+    "automate",
+    "autopilot",
+    "canvas",
+    "chef-terminal-workflow",
+    "create-hook",
+    "create-rule",
+    "create-skill",
+    "create-subagent",
+    "deploy-with-vercel",
+    "goal",
+    "in-chat-screenshot-to-code",
+    "loop",
+    "mansur-frontend-mentor",
+    "migrate-to-skills",
+    "music-producer",
+    "new-repo",
+    "onboard",
+    "origin",
+    "project-coding-rules",
+    "rename-chat",
+    "review",
+    "review-bugbot",
+    "review-security",
+    "sdk",
+    "share",
+    "shell",
+    "split-to-prs",
+    "statusline",
+    "update-cli-config",
+    "update-cursor-settings",
+    "vercel-react-best-practices",
+    "visualize"
+  ],
+  "plugins_manual": [
+    {
+      "name": "documents",
+      "id": "documents@openai-primary-runtime",
+      "displayName": "Documents",
+      "enabled": true,
+      "marketplace": "openai-primary-runtime",
+      "installPolicy": "AVAILABLE"
+    },
+    {
+      "name": "pdf",
+      "id": "pdf@openai-primary-runtime",
+      "displayName": "PDF",
+      "enabled": true,
+      "marketplace": "openai-primary-runtime",
+      "installPolicy": "AVAILABLE"
+    },
+    {
+      "name": "spreadsheets",
+      "id": "spreadsheets@openai-primary-runtime",
+      "displayName": "Spreadsheets",
+      "enabled": true,
+      "marketplace": "openai-primary-runtime",
+      "installPolicy": "AVAILABLE"
+    },
+    {
+      "name": "presentations",
+      "id": "presentations@openai-primary-runtime",
+      "displayName": "Presentations",
+      "enabled": true,
+      "marketplace": "openai-primary-runtime",
+      "installPolicy": "AVAILABLE"
+    },
+    {
+      "name": "template-creator",
+      "id": "template-creator@openai-primary-runtime",
+      "displayName": "Template Creator",
+      "enabled": true,
+      "marketplace": "openai-primary-runtime",
+      "installPolicy": "AVAILABLE"
+    },
+    {
+      "name": "codex-app-tools",
+      "id": "codex-app-tools@openai-bundled",
+      "displayName": null,
+      "enabled": true,
+      "marketplace": "openai-bundled",
+      "installPolicy": "AVAILABLE"
+    },
+    {
+      "name": "browser",
+      "id": "browser@openai-bundled",
+      "displayName": "Browser",
+      "enabled": true,
+      "marketplace": "openai-bundled",
+      "installPolicy": "AVAILABLE"
+    },
+    {
+      "name": "unified-computer-use",
+      "id": "unified-computer-use@openai-bundled",
+      "displayName": null,
+      "enabled": true,
+      "marketplace": "openai-bundled",
+      "installPolicy": "AVAILABLE"
+    },
+    {
+      "name": "chrome",
+      "id": "chrome@openai-bundled",
+      "displayName": "Chrome",
+      "enabled": true,
+      "marketplace": "openai-bundled",
+      "installPolicy": "AVAILABLE"
+    },
+    {
+      "name": "computer-use",
+      "id": "computer-use@openai-bundled",
+      "displayName": "Computer Use",
+      "enabled": true,
+      "marketplace": "openai-bundled",
+      "installPolicy": "AVAILABLE"
+    },
+    {
+      "name": "visualize",
+      "id": "visualize@openai-bundled",
+      "displayName": "Visualize",
+      "enabled": true,
+      "marketplace": "openai-bundled",
+      "installPolicy": "AVAILABLE"
+    },
+    {
+      "name": "google-drive",
+      "id": "google-drive@openai-curated-remote",
+      "displayName": "Google Drive",
+      "enabled": true,
+      "marketplace": "openai-curated-remote",
+      "installPolicy": "AVAILABLE"
+    },
+    {
+      "name": "github",
+      "id": "github@openai-curated-remote",
+      "displayName": "GitHub",
+      "enabled": true,
+      "marketplace": "openai-curated-remote",
+      "installPolicy": "AVAILABLE"
+    },
+    {
+      "name": "supabase",
+      "id": "supabase@openai-curated-remote",
+      "displayName": "Supabase",
+      "enabled": true,
+      "marketplace": "openai-curated-remote",
+      "installPolicy": "AVAILABLE"
+    },
+    {
+      "name": "app-69ea4ed2cf7c8191b742ef3622479ddd",
+      "id": "app-69ea4ed2cf7c8191b742ef3622479ddd@openai-curated-remote",
+      "displayName": "Exa",
+      "enabled": true,
+      "marketplace": "openai-curated-remote",
+      "installPolicy": "AVAILABLE"
+    },
+    {
+      "name": "vercel",
+      "id": "vercel@openai-curated-remote",
+      "displayName": "Vercel",
+      "enabled": true,
+      "marketplace": "openai-curated-remote",
+      "installPolicy": "AVAILABLE"
+    },
+    {
+      "name": "write-like-me",
+      "id": "write-like-me@openai-curated-remote",
+      "displayName": "Writing Style",
+      "enabled": true,
+      "marketplace": "openai-curated-remote",
+      "installPolicy": "AVAILABLE"
+    },
+    {
+      "name": "figma",
+      "id": "figma@openai-curated-remote",
+      "displayName": "Figma",
+      "enabled": true,
+      "marketplace": "openai-curated-remote",
+      "installPolicy": "AVAILABLE"
+    },
+    {
+      "name": "app-69ef18c674308191a2f952431f91ea61",
+      "id": "app-69ef18c674308191a2f952431f91ea61@openai-curated-remote",
+      "displayName": "Context7",
+      "enabled": true,
+      "marketplace": "openai-curated-remote",
+      "installPolicy": "AVAILABLE"
+    },
+    {
+      "name": "ads-manager",
+      "id": "ads-manager@openai-curated-remote",
+      "displayName": "ChatGPT Ads Manager",
+      "enabled": false,
+      "marketplace": "openai-curated-remote",
+      "installPolicy": "AVAILABLE"
+    },
+    {
+      "name": "app-6a9a3581fe6c8191b68b1b2d38f37dfd",
+      "id": "app-6a9a3581fe6c8191b68b1b2d38f37dfd@openai-curated-remote",
+      "displayName": "Browser Use",
+      "enabled": true,
+      "marketplace": "openai-curated-remote",
+      "installPolicy": "AVAILABLE"
+    },
+    {
+      "name": "data-analytics",
+      "id": "data-analytics@openai-curated-remote",
+      "displayName": "Data",
+      "enabled": true,
+      "marketplace": "openai-curated-remote",
+      "installPolicy": "AVAILABLE"
+    },
+    {
+      "name": "app-6a883213fb288191aa91f89a5db31f60",
+      "id": "app-6a883213fb288191aa91f89a5db31f60@openai-curated-remote",
+      "displayName": "MagicPath",
+      "enabled": false,
+      "marketplace": "openai-curated-remote",
+      "installPolicy": "AVAILABLE"
+    },
+    {
+      "name": "ai-graphic-design",
+      "id": "ai-graphic-design@openai-curated-remote",
+      "displayName": "AI Graphic Design",
+      "enabled": true,
+      "marketplace": "openai-curated-remote",
+      "installPolicy": "AVAILABLE"
+    },
+    {
+      "name": "designer",
+      "id": "designer@openai-curated-remote",
+      "displayName": "Designer",
+      "enabled": true,
+      "marketplace": "openai-curated-remote",
+      "installPolicy": "AVAILABLE"
+    },
+    {
+      "name": "build-web-apps",
+      "id": "build-web-apps@openai-curated-remote",
+      "displayName": "Build Web Apps",
+      "enabled": true,
+      "marketplace": "openai-curated-remote",
+      "installPolicy": "AVAILABLE"
+    },
+    {
+      "name": "openai-templates",
+      "id": "openai-templates@openai-curated-remote",
+      "displayName": "Default templates",
+      "enabled": true,
+      "marketplace": "openai-curated-remote",
+      "installPolicy": "INSTALLED_BY_DEFAULT"
+    },
+    {
+      "name": "pages",
+      "id": "pages@openai-curated-remote",
+      "displayName": "Pages",
+      "enabled": true,
+      "marketplace": "openai-curated-remote",
+      "installPolicy": "INSTALLED_BY_DEFAULT"
+    },
+    {
+      "name": "sites",
+      "id": "sites@openai-curated-remote",
+      "displayName": "Sites",
+      "enabled": true,
+      "marketplace": "openai-curated-remote",
+      "installPolicy": "INSTALLED_BY_DEFAULT"
+    },
+    {
+      "name": "plugin-management",
+      "id": "plugin-management@openai-curated-remote",
+      "displayName": "Plugin Management",
+      "enabled": true,
+      "marketplace": "openai-curated-remote",
+      "installPolicy": "INSTALLED_BY_DEFAULT"
+    },
+    {
+      "name": "work-pets",
+      "id": "work-pets@openai-curated-remote",
+      "displayName": "Pets",
+      "enabled": true,
+      "marketplace": "openai-curated-remote",
+      "installPolicy": "INSTALLED_BY_DEFAULT"
+    }
+  ],
+  "removed_plugins": [
+    "Metricool",
+    "AnyPDF",
+    "Adobe Express",
+    "TinyFish",
+    "PostHog",
+    "Sentry",
+    "Tailscale",
+    "Cloud Environment",
+    "Canva",
+    "Descript",
+    "Gmail",
+    "Google Calendar"
+  ]
+}

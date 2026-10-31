@@ -1,0 +1,4 @@
+# Validation
+Run python -m unittest discover -s tests -v. Parse all shipped PowerShell scripts without executing them. Install to an isolated temporary owner home twice; compare all payload hashes and ensure unrelated config survives; modify one file and verify uninstall preserves it.
+On the actual Windows host run Install.ps1, then CodexSetting.ps1 doctor and runtime-doctor. Verify the active scheduled watcher and that the superseded global/warm-up tasks are disabled.
+In a human test chat explicitly select AUTORUN, verify its exact UUID, compare an unarmed second chat, then off/complete. Pair Android using the official QR flow and verify its invocation refers to that same host/chat. Observe a natural usage limit and reset before marking end-to-end recovery proven. Do not force exhaustion or redeem credits for a test.

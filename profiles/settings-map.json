@@ -1,0 +1,562 @@
+[
+  {
+    "source": "config.toml",
+    "key": "project_doc_max_bytes",
+    "disposition": "portable",
+    "destination": "config.toml",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "model",
+    "disposition": "portable",
+    "destination": "config.toml",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "model_reasoning_effort",
+    "disposition": "portable",
+    "destination": "config.toml",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "service_tier",
+    "disposition": "portable",
+    "destination": "config.toml",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "notify.0",
+    "disposition": "runtime_regenerated",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "notify.1",
+    "disposition": "runtime_regenerated",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "desktop.followUpQueueMode",
+    "disposition": "portable",
+    "destination": "config.toml",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "desktop.conversationDetailMode",
+    "disposition": "portable",
+    "destination": "config.toml",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "desktop.projectlessWorkspaceRoot",
+    "disposition": "device_remapped",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "desktop.localeOverride",
+    "disposition": "portable",
+    "destination": "config.toml",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "desktop.code-review-sidebar-layout",
+    "disposition": "portable",
+    "destination": "config.toml",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "desktop.git-worktree-root",
+    "disposition": "device_remapped",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "desktop.worktree-upstream-refresh-mode",
+    "disposition": "portable",
+    "destination": "config.toml",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "desktop.worktree-keep-count",
+    "disposition": "portable",
+    "destination": "config.toml",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "desktop.microphoneInputDeviceId",
+    "disposition": "device_remapped",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "desktop.keepRemoteControlAwakeWhilePluggedIn",
+    "disposition": "portable",
+    "destination": "config.toml",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "desktop.external-agent-import-sync-item-types",
+    "disposition": "portable",
+    "destination": "config.toml",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "desktop.external-agent-import-sync-enabled",
+    "disposition": "portable",
+    "destination": "config.toml",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "desktop.agent-usage-reset-enabled",
+    "disposition": "portable",
+    "destination": "config.toml",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "desktop.open-in-target-preferences.global",
+    "disposition": "device_remapped",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "marketplaces.openai-bundled.source_type",
+    "disposition": "runtime_regenerated",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "marketplaces.openai-bundled.source",
+    "disposition": "runtime_regenerated",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "marketplaces.openai-primary-runtime.source_type",
+    "disposition": "runtime_regenerated",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "marketplaces.openai-primary-runtime.source",
+    "disposition": "runtime_regenerated",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "plugins.codex-app-tools@openai-bundled.enabled",
+    "disposition": "machine_local",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "plugins.browser@openai-bundled.enabled",
+    "disposition": "machine_local",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "plugins.unified-computer-use@openai-bundled.enabled",
+    "disposition": "machine_local",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "plugins.chrome@openai-bundled.enabled",
+    "disposition": "machine_local",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "plugins.visualize@openai-bundled.enabled",
+    "disposition": "machine_local",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "plugins.computer-use@openai-bundled.enabled",
+    "disposition": "machine_local",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "plugins.documents@openai-primary-runtime.enabled",
+    "disposition": "machine_local",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "plugins.pdf@openai-primary-runtime.enabled",
+    "disposition": "machine_local",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "plugins.spreadsheets@openai-primary-runtime.enabled",
+    "disposition": "machine_local",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "plugins.presentations@openai-primary-runtime.enabled",
+    "disposition": "machine_local",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "plugins.template-creator@openai-primary-runtime.enabled",
+    "disposition": "machine_local",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "mcp_servers.node_repl.command",
+    "disposition": "runtime_regenerated",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "mcp_servers.node_repl.env_vars.0",
+    "disposition": "runtime_regenerated",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "mcp_servers.node_repl.env_vars.1",
+    "disposition": "runtime_regenerated",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "mcp_servers.node_repl.env_vars.2",
+    "disposition": "runtime_regenerated",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "mcp_servers.node_repl.env_vars.3",
+    "disposition": "runtime_regenerated",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "mcp_servers.node_repl.startup_timeout_sec",
+    "disposition": "runtime_regenerated",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "mcp_servers.node_repl.env.NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS",
+    "disposition": "runtime_regenerated",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "mcp_servers.node_repl.env.NODE_REPL_NODE_MODULE_DIRS",
+    "disposition": "runtime_regenerated",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "mcp_servers.node_repl.env.NODE_REPL_NODE_PATH",
+    "disposition": "runtime_regenerated",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "mcp_servers.node_repl.env.NODE_REPL_TRUSTED_CODE_PATHS",
+    "disposition": "runtime_regenerated",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "mcp_servers.node_repl.env.CODEX_HOME",
+    "disposition": "runtime_regenerated",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "mcp_servers.node_repl.env.BROWSER_USE_AVAILABLE_BACKENDS",
+    "disposition": "runtime_regenerated",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "mcp_servers.node_repl.env.BROWSER_USE_TINYSKY_ENABLED",
+    "disposition": "runtime_regenerated",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "mcp_servers.node_repl.env.NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER",
+    "disposition": "runtime_regenerated",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "mcp_servers.node_repl.env.NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME",
+    "disposition": "runtime_regenerated",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "mcp_servers.node_repl.env.BROWSER_USE_CODEX_APP_BUILD_FLAVOR",
+    "disposition": "runtime_regenerated",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "mcp_servers.node_repl.env.BROWSER_USE_CODEX_APP_VERSION",
+    "disposition": "runtime_regenerated",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "mcp_servers.node_repl.env.NODE_REPL_TRUSTED_SERVICES",
+    "disposition": "runtime_regenerated",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "mcp_servers.node_repl.env.SKY_CUA_NATIVE_PIPE",
+    "disposition": "runtime_regenerated",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "mcp_servers.node_repl.env.SKY_CUA_NATIVE_PIPE_DIRECTORY",
+    "disposition": "runtime_regenerated",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "mcp_servers.node_repl.env.CODEX_CLI_PATH",
+    "disposition": "runtime_regenerated",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "mcp_servers.node_repl.env.NODE_REPL_UNTRUSTED_ENV_ALLOWLIST",
+    "disposition": "runtime_regenerated",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "mcp_servers.node_repl.env.NODE_REPL_INSTRUCTIONS_USE_CASE_COMPUTER_USE",
+    "disposition": "runtime_regenerated",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "windows.sandbox",
+    "disposition": "portable",
+    "destination": "config.toml",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "projects.<existing-local-project>.trust_level",
+    "disposition": "machine_local",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "projects.<existing-local-project>.trust_level",
+    "disposition": "machine_local",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "projects.<existing-local-project>.trust_level",
+    "disposition": "machine_local",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "projects.<existing-local-project>.trust_level",
+    "disposition": "machine_local",
+    "destination": "target host discovery / existing local setting",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "skills.config.0.path",
+    "disposition": "portable",
+    "destination": "config.toml",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "skills.config.0.enabled",
+    "disposition": "portable",
+    "destination": "config.toml",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "skills.config.1.path",
+    "disposition": "portable",
+    "destination": "config.toml",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "skills.config.1.enabled",
+    "disposition": "portable",
+    "destination": "config.toml",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "skills.config.2.path",
+    "disposition": "portable",
+    "destination": "config.toml",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "skills.config.2.enabled",
+    "disposition": "portable",
+    "destination": "config.toml",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "skills.config.3.path",
+    "disposition": "portable",
+    "destination": "config.toml",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "skills.config.3.enabled",
+    "disposition": "portable",
+    "destination": "config.toml",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "skills.config.4.path",
+    "disposition": "portable",
+    "destination": "config.toml",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "skills.config.4.enabled",
+    "disposition": "portable",
+    "destination": "config.toml",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "skills.config.5.path",
+    "disposition": "portable",
+    "destination": "config.toml",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "skills.config.5.enabled",
+    "disposition": "portable",
+    "destination": "config.toml",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "features.memories",
+    "disposition": "portable",
+    "destination": "config.toml",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "features.multi_agent",
+    "disposition": "portable",
+    "destination": "config.toml",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "memories.generate_memories",
+    "disposition": "portable",
+    "destination": "config.toml",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "memories.use_memories",
+    "disposition": "portable",
+    "destination": "config.toml",
+    "verification": "doctor read-back"
+  },
+  {
+    "source": "config.toml",
+    "key": "tui.screen_reader_detection_done",
+    "disposition": "portable",
+    "destination": "config.toml",
+    "verification": "doctor read-back"
+  }
+]

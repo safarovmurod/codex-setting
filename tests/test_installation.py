@@ -1,0 +1,60 @@
+import hashlib
+import json
+from pathlib import Path
+import sys
+import tempfile
+import tomllib
+import unittest
+
+ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'src'))
+from codex_setting.installation import install,uninstall,doctor
+from codex_setting.preferences import toml_dump
+
+class InstallationTests(unittest.TestCase):
+    def setUp(self):
+        self.temp=tempfile.TemporaryDirectory();self.base=Path(self.temp.name);self.source=self.base/'source';self.user=self.base/'owner';self.dest=self.base/'installed'
+        (self.source/'payload/skills/example').mkdir(parents=True);(self.source/'skills/autorun/agents').mkdir(parents=True);(self.source/'profiles').mkdir()
+        (self.source/'payload/AGENTS.md').write_text('owner instructions',encoding='utf-8');(self.source/'payload/skills/example/SKILL.md').write_text('example')
+        (self.source/'skills/autorun/SKILL.md').write_text('explicit autorun');(self.source/'skills/autorun/agents/openai.yaml').write_text('policy:\n  allow_implicit_invocation: false\n')
+        self.profile={'config':{'model':'gpt-6.1-sol','skills':{'config':[{'path':'${USERPROFILE}/.agents/skills/example/SKILL.md','enabled':False}]},'desktop':{'projectlessWorkspaceRoot':'${DOCUMENTS}/Codex'}}}
+        (self.source/'profiles/owner.json').write_text(json.dumps(self.profile))
+        hashes={p.relative_to(self.source/'payload').as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in (self.source/'payload').rglob('*') if p.is_file()}
+        (self.source/'profiles/payload-sha256.json').write_text(json.dumps(hashes))
+    def tearDown(self):self.temp.cleanup()
+    def run_install(self):return install(self.source,self.dest,self.user,self.user/'Documents')
+    def test_fresh_install_writes_real_destinations(self):
+        result=self.run_install();self.assertTrue(result['files_ok'])
+        cfg=tomllib.loads((self.user/'.codex/config.toml').read_text())
+        self.assertNotIn('${',json.dumps(cfg));self.assertFalse(cfg['skills']['config'][0]['enabled'])
+        self.assertTrue((self.user/'.agents/skills/example/SKILL.md').is_file());self.assertTrue((self.user/'.agents/skills/autorun/SKILL.md').is_file())
+        self.assertEqual(result['chatgpt_personalization']['status'],'needs_ui_verification')
+    def test_repeat_install_no_duplicate_entries_and_backup_restores_original(self):
+        (self.user/'.codex').mkdir(parents=True);cfg=self.user/'.codex/config.toml'
+        original=b'model="old"\n[unrelated]\nkeep=true\n';cfg.write_bytes(original)
+        self.run_install();first=json.loads((self.dest/'installation.json').read_text());self.run_install();second=json.loads((self.dest/'installation.json').read_text())
+        self.assertEqual(first['host_id'],second['host_id']);self.assertEqual(len(first['files']),len(second['files']))
+        self.assertTrue(tomllib.loads(cfg.read_text())['unrelated']['keep'])
+        self.assertFalse(uninstall(self.dest)['conflicts']);self.assertEqual(cfg.read_bytes(),original)
+    def test_uninstall_preserves_later_owner_edits(self):
+        self.run_install();p=self.user/'.codex/AGENTS.md';p.write_text('later owner change')
+        result=uninstall(self.dest);self.assertIn(str(p),result['conflicts']);self.assertEqual(p.read_text(),'later owner change')
+    def test_hash_failure_changes_no_destination(self):
+        (self.source/'payload/AGENTS.md').write_text('tampered')
+        with self.assertRaises(ValueError):self.run_install()
+        self.assertFalse((self.user/'.codex/AGENTS.md').exists())
+    def test_repair_restores_missing_file(self):
+        self.run_install();p=self.user/'.agents/skills/example/SKILL.md';p.unlink()
+        self.assertFalse(doctor(self.dest)['files_ok']);self.assertTrue(self.run_install()['files_ok'])
+    def test_real_snapshot_hashes_all_match(self):
+        hashes=json.loads((ROOT/'profiles/payload-sha256.json').read_text())
+        for rel,expected in hashes.items():self.assertEqual(hashlib.sha256((ROOT/'payload'/rel).read_bytes()).hexdigest(),expected,rel)
+        profile=json.loads((ROOT/'profiles/owner.json').read_text(encoding='utf-8'))
+        self.assertEqual(len(profile['personal_skills']),35);self.assertEqual(len(profile['config']['skills']['config']),6)
+    def test_real_config_roundtrip(self):
+        profile=json.loads((ROOT/'profiles/owner.json').read_text(encoding='utf-8'))
+        self.assertEqual(tomllib.loads(toml_dump(profile['config'])),profile['config'])
+    def test_payload_does_not_ship_credentials_or_databases(self):
+        for p in (ROOT/'payload').rglob('*'):
+            if p.is_file():self.assertNotIn(p.name.lower(),['auth.json','state.json','cookies.json']);self.assertNotIn(p.suffix.lower(),['.sqlite','.db','.pem','.key'])
+
+if __name__=='__main__':unittest.main()

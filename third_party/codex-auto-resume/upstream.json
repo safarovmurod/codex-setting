@@ -1,0 +1,23 @@
+{
+  "product": "CodexAutoStart.Recovery",
+  "schemaVersion": 1,
+  "version": "0.6.17",
+  "repository": "songyb111-gachon/codex-auto-resume-windows",
+  "sourceCommit": "a92bbf59ca1b136fe2eeaa04a3f5d773bf43e897",
+  "archiveName": "CodexAutoResume-v0.6.17-win-x64.zip",
+  "downloadUrl": "https://github.com/songyb111-gachon/codex-auto-resume-windows/releases/download/v0.6.17/CodexAutoResume-v0.6.17-win-x64.zip",
+  "sha256": "601e8081272a6c5b942ac465ca5d92938eca75007da24fa51cff4b7a6f130d16",
+  "edition": "standard",
+  "license": "MIT",
+  "sourceGitBlobs": {
+    "src/auto_resume.py": "d43c87651fb8f84d952aabbac5fc7b525f709ae5",
+    "src/codex_auto_resume/cli.py": "78bf5df35e0d7d1e7b70c9f55e6c71ba128dd189",
+    "src/codex_auto_resume/codex/transport.py": "e762423688733d324615a7cbc8db9ef17ec25bdc",
+    "src/codex_auto_resume/codex/appserver.py": "4b523fd85bd5b69a918ab963e9cb516b5aa13435",
+    "src/codex_auto_resume/codex/eligibility.py": "bcffff0da786b6f31ee885c09ea16526952060c6",
+    "src/codex_auto_resume/engine/dispatch.py": "259b60ac9e33d1f09f01971a6335b125f3f7633a",
+    "src/codex_auto_resume/engine/freshness.py": "de4ccc73ba8e7b66ce7f74422866986455f18214",
+    "src/codex_auto_resume/runtime/app.py": "6a176e589d33e0ea300c59aa811df07b8df7b1a0",
+    "src/codex_auto_resume/settings.py": "4a1187ef5bcde0b37809b7913d1cd8aad17bdd28"
+  }
+}

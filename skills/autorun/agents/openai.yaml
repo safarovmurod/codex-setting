@@ -1,0 +1,6 @@
+interface:
+  display_name: "AUTORUN"
+  short_description: "Ҳамин вазифаро баъди баргаштани лимит давом деҳ"
+  default_prompt: "Use $autorun to manage automatic continuation of the unfinished task in this exact chat."
+policy:
+  allow_implicit_invocation: false

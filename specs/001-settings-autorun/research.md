@@ -1,0 +1,6 @@
+# Research decisions
+2026-11-01: readonly live research verified immutable upstream v0.6.17 with native codex-cli 0.166.0-alpha.5.1. Official location, version, queue flags, desktop identity, loaded human thread, fresh projection and numeric usage read passed. A subagent UUID is correctly rejected and must never be remapped to a human parent for consent.
+Use LocalSource.latest, projection, later_turns, reset_hint, foreign_queued and queued_rows. later_turns returns kind=ours/foreign/undetermined. reset_hint includes uncertain; uncertain timestamps never count as reset proof. Backend.send has a final launch_guard. Use the vendor's exact marker grammar, not an invented marker.
+A completed assistant turn proves neither completion of all obligations nor permission to start a new task. Explicit task completion evidence and conservative rearming are required.
+Keep old vendor source immutable. Reject a custom unrecognized backend rather than using --last or changing accounts.
+Official references: https://learn.chatgpt.com/docs/app-server ; https://learn.chatgpt.com/docs/reference/slash-commands ; https://learn.chatgpt.com/docs/remote-connections ; https://learn.chatgpt.com/docs/build-skills ; https://learn.chatgpt.com/docs/enterprise/windows-deployment .
