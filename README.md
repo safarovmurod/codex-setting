@@ -51,6 +51,8 @@ Set-Location codex-setting
 ```
 uninstall файлҳои тағйирнадодаи насбшударо ба backup бармегардонад; тағйироти баъдии худатро намепӯшонад. Backups ва receipt-ҳо барои санҷиш мемонанд. Task-ҳои кӯҳнаи CodexAutoStart баъди migration хомӯш мемонанд, то recovery-и глобалӣ худ аз худ барнагардад; XML-и пешина барои барқароркунии интихобии соҳиби ҳисоб нигоҳ дошта мешавад.
 
+Uninstall ҳоло сабти marketplace ва cache-и плагини маҳаллии AUTORUN-ро пурра тоза намекунад. Роҳи recovery-и насби ҷорӣ аз роҳи дар қоидаи кӯҳна зикршуда фарқ мекунад; тафсил дар evidence аст.
+
 ## Плагинҳо — manual
 Мақсад аз ном муайян аст: GitHub — репо; Google Drive — файлҳои Drive; Supabase — база; Vercel — deployment; Figma/Designer/AI Graphic Design — дизайн; Context7/Exa — documentation/search; Browser Use — браузер; Writing Style — услуб; Data — таҳлил. Ads Manager ва MagicPath дар snapshot хомӯш буданд: насбкунанда онҳоро фаъол намекунад.
 

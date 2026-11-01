@@ -70,26 +70,10 @@ $meta = Get-Content -LiteralPath $metaPath -Raw | ConvertFrom-Json
 if ($meta.version -ne '0.6.17' -or $meta.sha256 -ne '601e8081272a6c5b942ac465ca5d92938eca75007da24fa51cff4b7a6f130d16') { throw 'Unexpected upstream pin.' }
 $recovery = Join-Path $rootPath 'recovery'
 New-Item -ItemType Directory -Path $recovery -Force | Out-Null
-$archive = Join-Path $recovery $meta.archiveName
-if ($ArchivePath) {
-    if ((Get-FileHash -LiteralPath $ArchivePath -Algorithm SHA256).Hash.ToLowerInvariant() -ne $meta.sha256) { throw 'Archive hash mismatch.' }
-    if ([IO.Path]::GetFullPath($ArchivePath) -ne [IO.Path]::GetFullPath($archive)) { Copy-Item -LiteralPath $ArchivePath -Destination $archive -Force }
-}
-if (-not (Test-Path -LiteralPath $archive)) { Invoke-WebRequest -Uri $meta.downloadUrl -OutFile $archive -UseBasicParsing -TimeoutSec 180 }
-if ((Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash.ToLowerInvariant() -ne $meta.sha256) { throw 'Archive hash mismatch; nothing will execute.' }
 $package = Join-Path $recovery 'package'
-if (-not (Test-Path -LiteralPath $package)) {
-    Add-Type -AssemblyName System.IO.Compression.FileSystem
-    $zip = [IO.Compression.ZipFile]::OpenRead($archive)
-    try {
-        $prefix = [IO.Path]::GetFullPath($package).TrimEnd('\') + '\'
-        foreach ($entry in $zip.Entries) {
-            $dest = [IO.Path]::GetFullPath((Join-Path $package $entry.FullName))
-            if (-not $dest.StartsWith($prefix,[StringComparison]::OrdinalIgnoreCase) -or (($entry.ExternalAttributes -shr 16) -band 0xF000) -eq 0xA000) { throw 'Unsafe archive entry.' }
-        }
-    } finally { $zip.Dispose() }
-    [IO.Compression.ZipFile]::ExtractToDirectory($archive,$package)
-}
+$prepare = @{ RecoveryRoot=$recovery; ArchiveName=$meta.archiveName; DownloadUrl=$meta.downloadUrl; Sha256=$meta.sha256 }
+if ($ArchivePath) { $prepare.ArchivePath=$ArchivePath }
+& (Join-Path $app 'scripts\Prepare-RecoveryPackage.ps1') @prepare | Out-Null
 New-Item -ItemType Directory -Path (Join-Path $recovery 'scripts') -Force | Out-Null
 Copy-Item -LiteralPath (Join-Path $app 'scripts\recovery-control.py') -Destination (Join-Path $recovery 'scripts\recovery-control.py') -Force
 Copy-Item -LiteralPath $metaPath -Destination (Join-Path $recovery 'upstream.json') -Force
@@ -103,6 +87,16 @@ $env:PYTHONDONTWRITEBYTECODE = '1'
 if ($LASTEXITCODE -ne 0) { throw 'Pinned recovery payload validation failed.' }
 & $python $runner --install-root $rootPath install --source $app --user-home $env:USERPROFILE --documents $documents
 if ($LASTEXITCODE -ne 0) { throw 'Preference installation failed; backups retained.' }
+# Keep the original backup; accept only the verified AUTORUN plugin key in the receipt.
+$pluginConfigBefore = [Convert]::ToBase64String([IO.File]::ReadAllBytes((Join-Path $codexHome 'config.toml')))
+$pluginResult = & (Join-Path $app 'scripts\Register-AutorunPlugin.ps1') -CodexExe $codex.Source -AppRoot $app
+if ($pluginResult.status -in @('installed','present')) {
+    $pluginConfigBefore | & $python $runner --install-root $rootPath finalize-plugin-config
+    if ($LASTEXITCODE -ne 0) { throw 'Plugin config changed unexpectedly; run doctor and review before repair.' }
+    Write-Output "Local AUTORUN plugin: $($pluginResult.status)."
+} else {
+    Write-Warning "Local AUTORUN plugin: $($pluginResult.status). $($pluginResult.detail)"
+}
 if (-not $NoStartup) {
     # Preserve old tasks before disabling the superseded global/warm-up behavior.
     $migration = Join-Path $rootPath 'backups\scheduled-tasks'

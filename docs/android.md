@@ -10,4 +10,4 @@
 Манбаъ: https://learn.chatgpt.com/docs/remote-connections .
 
 ## Агар дар ПК бошаду дар Android набошад
-Скилли personal-и маҳаллӣ худ аз худ cloud-плагини ҳисоб намешавад. Барои мобил бастаи plugins/autorun-ро ҳамчун архиви плагин дар ChatGPT → Plugins → Add → Upload plugin archive насб кун. Инро агенти насбкунанда дар UI автоматӣ иҷро мекунад. Архив танҳо manifest ва як скилли explicit-only дорад; personalization, credential ва source-и controller upload намешаванд. Баъди насби cloud-плагини AUTORUN дар Android selector-и @-ро аз нав кушо. Танҳо баъди намоиш ва санҷиши ҳамон host/thread натиҷа тасдиқ мешавад.
+Скилли personal-и маҳаллӣ худ аз худ cloud-плагини ҳисоб намешавад. Барои мобил бастаи plugins/autorun-ро ҳамчун архиви плагин дар ChatGPT → Plugins → Add → Upload plugin archive насб кун. Агар UI-и браузери агент интихоби файлро дастгирӣ накунад, соҳиби ҳисоб файлро интихоб мекунад. Архив танҳо manifest ва як скилли explicit-only дорад; personalization, credential ва source-и controller upload намешаванд. Баъди насби cloud-плагини AUTORUN дар Android selector-и @-ро аз нав кушо. Танҳо баъди намоиш ва санҷиши ҳамон host/thread натиҷа тасдиқ мешавад.

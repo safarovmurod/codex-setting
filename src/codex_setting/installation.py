@@ -11,6 +11,18 @@ from .common import PRODUCT, atomic_write, confined, digest, file_lock, load_jso
 from .preferences import desired_config, merge, toml_dump
 
 
+def render_agents(data: bytes, user_home: Path) -> bytes:
+    """Map known source-host instruction paths without changing the snapshot."""
+    value = data.decode('utf-8')
+    replacements = {
+        'C:/Users/safar/.agents/skills': (user_home/'.agents/skills').as_posix(),
+        'C:/Users/safar/.codex/AGENTS.md': (user_home/'.codex/AGENTS.md').as_posix(),
+    }
+    for source, target in replacements.items():
+        value = value.replace(source, target)
+    return value.encode('utf-8')
+
+
 def install(source: Path, root: Path, user_home: Path, documents: Path):
     for path in (root,user_home/'.codex',user_home/'.agents/skills'):no_links(path)
     profile=load_json(source/'profiles/owner.json')
@@ -28,7 +40,8 @@ def install(source: Path, root: Path, user_home: Path, documents: Path):
         candidates={}
         for rel in hashes:
             target=user_home/'.codex/AGENTS.md' if rel=='AGENTS.md' else confined(user_home/'.agents',rel)
-            candidates[target]=confined(source/'payload',rel).read_bytes()
+            data=confined(source/'payload',rel).read_bytes()
+            candidates[target]=render_agents(data,user_home) if rel=='AGENTS.md' else data
         for file in (source/'skills').rglob('*'):
             if file.is_file():
                 target=confined(user_home/'.agents/skills',file.relative_to(source/'skills').as_posix())
@@ -81,6 +94,41 @@ def doctor(root):
             'file_count':len(files),'files':files,'node_repl_runtime':runtime,
             'chatgpt_personalization':load_json(root/'personalization-evidence.json',{'status':'needs_ui_verification'}),
             'android':load_json(root/'android-evidence.json',{'status':'needs_owner_pairing_and_live_test'})}
+
+
+def finalize_plugin_config(root: Path, before: bytes):
+    """Accept only the explicit local AUTORUN enablement into the install receipt."""
+    with file_lock(root/'install.lock'):
+        marker=load_json(root/'installation.json',{})
+        if marker.get('product')!=PRODUCT:raise ValueError('NO_OWNED_INSTALLATION')
+        config=Path(marker['user_home'])/'.codex/config.toml'
+        no_links(config)
+        entry=marker.get('files',{}).get(str(config))
+        if not entry or entry['installed_sha256']!=digest(before):raise ValueError('PLUGIN_CONFIG_BASELINE_CHANGED')
+        after=config.read_bytes()
+        old=tomllib.loads(before.decode('utf-8-sig'));new=tomllib.loads(after.decode('utf-8-sig'))
+        new_plugin=new.get('plugins',{}).get('autorun@codex-setting')
+        if new_plugin != {'enabled':True}:raise ValueError('PLUGIN_CONFIG_NOT_ENABLED')
+        marketplace=new.get('marketplaces',{}).get('codex-setting')
+        if not isinstance(marketplace,dict) or set(marketplace)!={'source','source_type'} or marketplace['source_type']!='local':raise ValueError('PLUGIN_MARKETPLACE_NOT_LOCAL')
+        actual=str(marketplace['source'])
+        if actual.startswith('\\\\?\\'):actual=actual[4:]
+        expected=str(root/'app')
+        if os.path.normcase(os.path.abspath(actual))!=os.path.normcase(os.path.abspath(expected)):raise ValueError('PLUGIN_MARKETPLACE_WRONG_ROOT')
+        old_marketplace=old.get('marketplaces',{}).get('codex-setting')
+        if old_marketplace is not None and old_marketplace!=marketplace:raise ValueError('PLUGIN_MARKETPLACE_CHANGED')
+        # Ignore only the requested plugin and its verified marketplace entries.
+        for data in (old,new):
+            plugins=data.get('plugins',{})
+            plugins.pop('autorun@codex-setting',None)
+            if not plugins:data.pop('plugins',None)
+            markets=data.get('marketplaces',{})
+            markets.pop('codex-setting',None)
+            if not markets:data.pop('marketplaces',None)
+        if old!=new:raise ValueError('UNRELATED_CONFIG_CHANGE_DURING_PLUGIN_INSTALL')
+        entry['installed_sha256']=digest(after)
+        save_json(root/'installation.json',marker)
+        return {'status':'plugin_receipt_verified'}
 
 
 def uninstall(root):

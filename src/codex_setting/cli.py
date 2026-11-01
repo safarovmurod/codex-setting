@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import base64
 import json
 import os
 from pathlib import Path
@@ -8,7 +9,7 @@ import sys
 import time
 
 from .common import file_lock, load_json
-from .installation import doctor,install,uninstall
+from .installation import doctor,install,uninstall,finalize_plugin_config
 
 
 def main(argv=None):
@@ -18,12 +19,17 @@ def main(argv=None):
     sub=p.add_subparsers(dest='command',required=True)
     setup=sub.add_parser('install');setup.add_argument('--source',type=Path,required=True);setup.add_argument('--user-home',type=Path,required=True);setup.add_argument('--documents',type=Path,required=True)
     for name in ['doctor','status','uninstall']:sub.add_parser(name)
+    sub.add_parser('finalize-plugin-config')
     live=sub.add_parser('runtime-doctor');live.add_argument('--thread',default=os.environ.get('CODEX_THREAD_ID'))
     watch=sub.add_parser('watch');watch.add_argument('--once',action='store_true')
     ar=sub.add_parser('autorun');ar.add_argument('action',choices=['on','off','status','complete']);ar.add_argument('--thread',default=os.environ.get('CODEX_THREAD_ID'));ar.add_argument('--explicit',action='store_true');ar.add_argument('--goal');ar.add_argument('--task');ar.add_argument('--evidence',type=Path)
     a=p.parse_args(argv);root=a.install_root.resolve()
     try:
         if a.command=='install':result=install(a.source,root,a.user_home,a.documents)
+        elif a.command=='finalize-plugin-config':
+            encoded=sys.stdin.buffer.readline(4000001)
+            if len(encoded)>4000000:raise ValueError('PLUGIN_CONFIG_BASELINE_TOO_LARGE')
+            result=finalize_plugin_config(root,base64.b64decode(encoded.strip(),validate=True))
         elif a.command in ['doctor','status']:result=doctor(root)
         elif a.command=='uninstall':result=uninstall(root)
         else:
