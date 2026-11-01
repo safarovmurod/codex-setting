@@ -104,3 +104,5 @@ Spec Kit: github/spec-kit @ 7370e592f3cd9c06e5b698983957e227c75b30e2; initialize
 Recovery: codex-auto-resume-windows v0.6.17, MIT; [pin ва source hashes](third_party/codex-auto-resume/upstream.json), [LICENSE](third_party/codex-auto-resume/LICENSE). Vendor payload бетағйир аз release гирифта мешавад.
 Personal skills нигоҳдошти snapshot-и шахсӣ мебошанд; license/attribution-и дохили онҳо нигоҳ дошта шудааст. Ин репои private иҷозати public redistribution-и ҳар скиллро намедиҳад.
 OpenAI Docs: [skills](https://learn.chatgpt.com/docs/build-skills), [slash](https://learn.chatgpt.com/docs/reference/slash-commands), [remote](https://learn.chatgpt.com/docs/remote-connections), [app server](https://learn.chatgpt.com/docs/app-server).
+
+Ҷараёни одӣ: аввал @AUTORUN-ро алоҳида фирист; баъд вазифаро дар паёми дигар навис. Барои хомӯшкунӣ `autoruoff` ё `AUTORUN off`. Ин фармонҳоро агент ба controller мерасонад; танҳо матни паём бе иҷрои controller тасдиқи хомӯшшавӣ нест.

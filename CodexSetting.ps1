@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [Parameter(Position=0)][ValidateSet('doctor','status','runtime-doctor','repair','uninstall','autorun')][string]$Command='status',
+    [Parameter(Position=0)][ValidateSet('doctor','status','runtime-doctor','repair','uninstall','autorun','autoruoff')][string]$Command='status',
     [Parameter(ValueFromRemainingArguments=$true)][string[]]$Remaining
 )
 $ErrorActionPreference='Stop'

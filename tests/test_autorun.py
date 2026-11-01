@@ -147,6 +147,22 @@ class AutorunTests(unittest.TestCase):
         self.c.connect(T,explicit=True);self.c.tick()
         self.assertIsNone(self.c.store.task('host-A',T));self.assertEqual(self.runtime.backend.probes,0)
 
+    def test_autoruoff_cli_disconnects_without_app_runtime(self):
+        from unittest.mock import patch
+        from contextlib import redirect_stdout
+        import io,os
+        from codex_setting.cli import main
+        self.c.connect(T,explicit=True)
+        # CLI uses install-root/state; this fixture controller uses root directly.
+        from codex_setting.store import Store
+        store=Store(self.root/'state');store.connect('host-A',T,3)
+        (self.root/'installation.json').write_text(json.dumps({'product':'codex-setting','host_id':'host-A','user_home':str(self.root/'owner')}))
+        output=io.StringIO()
+        with patch.dict(os.environ,{'CODEX_THREAD_ID':T}),patch('codex_setting.runtime.Runtime',side_effect=RuntimeError('closed')),redirect_stdout(output):
+            main(['--install-root',str(self.root),'autoruoff'])
+        self.assertEqual(json.loads(output.getvalue())['status'],'off')
+        self.assertEqual(store.connections('host-A'),[])
+
     def test_connected_chat_adopts_normal_followup_and_recovers_once(self):
         self.c.connect(T,explicit=True);self.next_human('failed')
         self.c.tick();self.c.tick()

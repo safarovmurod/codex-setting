@@ -20,10 +20,13 @@ def main(argv=None):
     setup=sub.add_parser('install');setup.add_argument('--source',type=Path,required=True);setup.add_argument('--user-home',type=Path,required=True);setup.add_argument('--documents',type=Path,required=True)
     for name in ['doctor','status','uninstall']:sub.add_parser(name)
     sub.add_parser('finalize-plugin-config')
+    sub.add_parser('autoruoff')
     live=sub.add_parser('runtime-doctor');live.add_argument('--thread',default=os.environ.get('CODEX_THREAD_ID'))
     watch=sub.add_parser('watch');watch.add_argument('--once',action='store_true')
     ar=sub.add_parser('autorun');ar.add_argument('action',choices=['on','off','status','complete']);ar.add_argument('--thread',default=os.environ.get('CODEX_THREAD_ID'));ar.add_argument('--explicit',action='store_true');ar.add_argument('--goal');ar.add_argument('--task');ar.add_argument('--evidence',type=Path)
     a=p.parse_args(argv);root=a.install_root.resolve()
+    if a.command=='autoruoff':
+        a.command='autorun';a.action='off';a.thread=os.environ.get('CODEX_THREAD_ID')
     try:
         if a.command=='install':result=install(a.source,root,a.user_home,a.documents)
         elif a.command=='finalize-plugin-config':
@@ -57,13 +60,7 @@ def main(argv=None):
             if a.command=='runtime-doctor':result=runtime.doctor(a.thread)
             else:
                 controller=Controller(root/'state',marker['host_id'],runtime)
-                if a.command=='watch':
-                    with file_lock(root/'watcher.lock',timeout=.1):
-                        while True:
-                            result=controller.tick()
-                            if a.once:break
-                            time.sleep(30)
-                else:
+                if a.command=='autorun':
                     if not a.thread:raise ValueError('CURRENT_THREAD_ID_REQUIRED')
                     thread_id(a.thread)
                     if a.action=='on':
