@@ -21,3 +21,5 @@
 - [x] T014 Place the installed recovery beneath the canonical CodexAutoStart folder; retain prior installation as rollback backup and verify task identity after migration.
 - [x] T015 Confirm Android selector availability from the owner's screenshot; account plugin installed. Phone-origin execution provenance remains separate from current-host command verification.
 Dependencies: T001→T002→US1/US2→T007→US3. Local fixture tests are independent; actual device/reset gates are separate. No extra agents are required for implementation.
+- [x] T016 Add explicit persistent chat connections, task adoption, off/Stop/completion behavior and regression coverage.
+- [x] T017 Install updated host entrypoints and upload account plugin 1.1.0; verify positive latest-human classification on the real host without a model request.

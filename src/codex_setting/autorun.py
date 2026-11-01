@@ -49,12 +49,46 @@ class Controller:
     def off(self,thread):
         thread_id(thread)
         with file_lock(self.lock(thread),timeout=60):
+            self.store.disconnect(self.host,thread)
             self.store.stop(self.host,thread)
             # Remove only our positively acknowledged queue items, never somebody else's.
             for row in self.store.attempts(self.host,thread):
                 if row['queue_id']:self.cancel_owned(row)
         pending=[r for r in self.store.pending_cancellations(self.host) if r['thread']==thread]
         return {'status':'off','thread':thread,'owned_queue_cancellations_pending':len(pending)}
+
+    def connect(self,thread,goal='',explicit=False):
+        thread_id(thread)
+        if not explicit:raise ValueError('EXPLICIT_AUTORUN_REQUIRED')
+        if not self.runtime.source.taken(thread,frozenset()):raise ValueError('NOT_AN_OWNER_DESKTOP_THREAD')
+        latest=self.runtime.source.latest(thread)
+        if not latest or latest['status']!='inProgress':raise ValueError('CONNECT_FROM_CURRENT_ACTIVE_TURN')
+        task=self.arm(thread,goal,True) if goal.strip() else None
+        with file_lock(self.lock(thread)):
+            self.store.connect(self.host,thread,int(latest['ordinal']))
+            if task is None:
+                self.store.stop(self.host,thread,'paused','connected_waiting_for_task')
+                for attempt in self.store.attempts(self.host,thread):
+                    if attempt['queue_id']:self.cancel_owned(attempt)
+        return {'connected':True,'thread':thread,'task':task,'until':'explicit_off'}
+
+    def sync_connections(self):
+        source=self.runtime.source
+        for connection in self.store.connections(self.host):
+            thread=connection['thread']
+            if not source.taken(thread,frozenset()) or source.projection(thread).get('fresh') is not True:continue
+            latest=source.latest(thread)
+            if not latest or latest['ordinal']<=connection['checkpoint']:continue
+            if latest['status'] not in ('inProgress','failed','completed'):continue
+            with file_lock(self.lock(thread)):
+                task=self.store.task(self.host,thread)
+                marker=self.marker(task or {'task':'connection:'+self.host+thread})
+                later=source.later_turns(thread,connection['checkpoint'],marker)
+                human=next((r for r in later if r.get('turn_id')==latest['turn_id']
+                            and r.get('ordinal')==latest['ordinal'] and r.get('kind')=='foreign'
+                            and r.get('reason')=='later_turn_exists'),None)
+                if human:
+                    self.store.adopt(self.host,thread,latest['ordinal'],hashlib.sha256(latest['turn_id'].encode()).hexdigest())
 
     def complete(self,thread,task,evidence):
         checks=evidence.get('checks') if isinstance(evidence,dict) else None
@@ -135,6 +169,7 @@ class Controller:
 
     def tick(self):
         result=[]
+        self.sync_connections()
         for row in self.store.pending_cancellations(self.host):self.cancel_owned(row)
         for task in self.store.armed(self.host):
             try: reason=self.tick_task(task)

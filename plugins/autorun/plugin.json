@@ -1,17 +1,29 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "autorun",
-  "version": "1.0.0",
-  "description": "Explicit same-chat AUTORUN on your connected Windows host. No cloud polling or model/account switching.",
-  "author": {"name": "codex-setting"},
+  "version": "1.1.0",
+  "description": "Connect this chat once for AUTORUN on subsequent tasks, until explicit off.",
+  "author": {
+    "name": "codex-setting"
+  },
   "repository": "https://github.com/safarovmurod/codex-setting",
-  "extensions": {"com.openai": {"interface": {
-    "displayName": "AUTORUN",
-    "shortDescription": "Ҳамин вазифаро баъди баргаштани лимит давом деҳ",
-    "longDescription": "Шеф, ин AUTORUN-и ҳамин Windows host аст. Дар Android Remote ҳамон чатро интихоб кун. Фақат бо даъвати ошкори худат фаъол мешавад; Stop/off ва анҷоми вазифаро эҳтиром мекунад.",
-    "developerName": "codex-setting",
-    "category": "Developer Tools",
-    "capabilities": ["skills"],
-    "defaultPrompt": ["AUTORUN status", "AUTORUN-ро барои вазифаи нотамоми ҳамин чат фаъол кун", "AUTORUN off"]
-  }}}
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "AUTORUN",
+        "shortDescription": "Як бор пайваст кун — вазифаҳоро одӣ деҳ",
+        "longDescription": "AUTORUN-ро як бор дар ҳамин чат фаъол кун. Баъд вазифаҳоро одӣ навис. Анҷоми вазифа пайвастшавиро хомӯш намекунад; off хомӯш мекунад. Stop/Pause кори ҷориро бозмедорад.",
+        "developerName": "codex-setting",
+        "category": "Developer Tools",
+        "capabilities": [
+          "skills"
+        ],
+        "defaultPrompt": [
+          "AUTORUN",
+          "AUTORUN status",
+          "AUTORUN off"
+        ]
+      }
+    }
+  }
 }

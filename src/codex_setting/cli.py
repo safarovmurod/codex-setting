@@ -68,12 +68,12 @@ def main(argv=None):
                     thread_id(a.thread)
                     if a.action=='on':
                         if a.thread!=os.environ.get('CODEX_THREAD_ID'):raise ValueError('ONLY_THE_CURRENT_THREAD_CAN_BE_ARMED')
-                        result=controller.arm(a.thread,a.goal or '',a.explicit)
+                        result=controller.connect(a.thread,a.goal or '',a.explicit)
                     elif a.action=='off':result=controller.off(a.thread)
                     elif a.action=='complete':
                         if not a.evidence or a.evidence.stat().st_size>128000:raise ValueError('BOUNDED_EVIDENCE_FILE_REQUIRED')
                         result=controller.complete(a.thread,a.task,load_json(a.evidence))
-                    else:result={'task':controller.store.task(marker['host_id'],a.thread),'attempts':controller.store.attempts(marker['host_id'],a.thread)}
+                    else:result={'connected':any(c['thread']==a.thread for c in controller.store.connections(marker['host_id'])),'task':controller.store.task(marker['host_id'],a.thread),'attempts':controller.store.attempts(marker['host_id'],a.thread)}
         # Status is content-free. JSON uses ASCII escapes on Windows legacy terminals.
         if isinstance(result,dict) and 'files' in result:
             result=dict(result);files=result.pop('files')

@@ -26,6 +26,9 @@ class Store:
               CREATE TABLE IF NOT EXISTS waits (
                 host TEXT, thread TEXT, turn TEXT, reset REAL, blocked INTEGER,
                 PRIMARY KEY(host,thread,turn));
+              CREATE TABLE IF NOT EXISTS connections (
+                host TEXT, thread TEXT, enabled INTEGER, checkpoint INTEGER,
+                PRIMARY KEY(host,thread));
             ''')
 
     @contextmanager
@@ -52,6 +55,29 @@ class Store:
         with self.db() as db:
             row=db.execute('SELECT * FROM tasks WHERE host=? AND thread=?',(host,thread)).fetchone()
             return dict(row) if row else None
+
+    def connect(self,host,thread,checkpoint):
+        with self.db() as db:
+            db.execute('INSERT OR REPLACE INTO connections VALUES (?,?,1,?)',(host,thread,checkpoint))
+
+    def connections(self,host):
+        with self.db() as db:
+            return [dict(r) for r in db.execute('SELECT * FROM connections WHERE host=? AND enabled=1',(host,))]
+
+    def disconnect(self,host,thread):
+        with self.db() as db:
+            db.execute('UPDATE connections SET enabled=0 WHERE host=? AND thread=?',(host,thread))
+
+    def adopt(self,host,thread,checkpoint,goal_hash):
+        # Caller holds the per-chat lock. Atomic cursor+generation survives a crash.
+        with self.db() as db:
+            db.execute('BEGIN IMMEDIATE')
+            row=db.execute('SELECT enabled,checkpoint FROM connections WHERE host=? AND thread=?',(host,thread)).fetchone()
+            if not row or not row['enabled'] or checkpoint<=row['checkpoint']:return False
+            db.execute('INSERT OR REPLACE INTO tasks VALUES (?,?,?,?,?,?,?,?)',
+                       (host,thread,str(uuid.uuid4()),'armed',time.time(),goal_hash,str(checkpoint),'connected_chat_new_task'))
+            db.execute('UPDATE connections SET checkpoint=? WHERE host=? AND thread=?',(checkpoint,host,thread))
+            return True
 
     def armed(self,host):
         with self.db() as db:

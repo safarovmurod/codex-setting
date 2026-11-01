@@ -13,8 +13,9 @@ class Watcher:
     def tick(self):
         armed=self.store.armed(self.host)
         pending=self.store.pending_cancellations(self.host)
-        result={'status':'idle','armed':len(armed),'pending_cancellations':len(pending),'checked_at':time.time()}
-        if armed or pending:
+        connections=self.store.connections(self.host)
+        result={'status':'idle','armed':len(armed),'connected':len(connections),'pending_cancellations':len(pending),'checked_at':time.time()}
+        if armed or pending or connections:
             try:
                 if self.controller is None:self.controller=Controller(self.root/'state',self.host,self.runtime_factory())
                 result.update(status='watching',tasks=self.controller.tick())

@@ -20,7 +20,7 @@ class Source:
     def projection(self,thread):return {'fresh':self.fresh}
     def foreign_queued(self,*args):return self.queued
     def queued_rows(self,*args):return []
-    def later_turns(self,*args):return self.later
+    def later_turns(self,thread,checkpoint,marker):return [r for r in self.later if r.get('ordinal',checkpoint+1)>checkpoint]
     def reset_hint(self,*args):return self.hint
     def queue_row(self,*args):return {'exists':True,'has_marker':True}
 
@@ -136,5 +136,65 @@ class AutorunTests(unittest.TestCase):
         self.arm();self.fail();self.c.tick()
         self.runtime.source.queue_row=lambda *args:{'exists':True,'has_marker':False}
         self.c.off(T);self.assertFalse(self.runtime.backend.deletes)
+
+    def next_human(self,status='inProgress'):
+        row=self.runtime.source.row
+        row.update(turn_id=str(uuid.uuid4()),ordinal=row['ordinal']+1,status=status,category='usage_limit' if status=='failed' else None)
+        self.runtime.source.later=[dict(row,kind='foreign',reason='later_turn_exists')]
+
+    def test_connect_without_task_is_idle_and_requires_explicit_consent(self):
+        with self.assertRaises(ValueError):self.c.connect(T)
+        self.c.connect(T,explicit=True);self.c.tick()
+        self.assertIsNone(self.c.store.task('host-A',T));self.assertEqual(self.runtime.backend.probes,0)
+
+    def test_connected_chat_adopts_normal_followup_and_recovers_once(self):
+        self.c.connect(T,explicit=True);self.next_human('failed')
+        self.c.tick();self.c.tick()
+        self.assertEqual(len(self.runtime.backend.sends),1)
+        self.assertEqual(self.c.store.task('host-A',T)['checkpoint'],'4')
+
+    def test_connection_survives_completion_and_takes_next_task(self):
+        self.c.connect(T,'first task',True);task=self.c.store.task('host-A',T)
+        self.c.complete(T,task['task'],{'checks':[{'name':'check','exit_code':0}]})
+        self.next_human();self.c.tick()
+        self.assertNotEqual(self.c.store.task('host-A',T)['task'],task['task'])
+        self.assertEqual(self.c.store.task('host-A',T)['status'],'armed')
+        self.assertFalse(self.runtime.backend.sends)
+
+    def test_connected_native_stop_stays_stopped_until_new_human_task(self):
+        self.c.connect(T,'task',True);self.runtime.source.row['status']='interrupted';self.c.tick()
+        self.c.tick();self.assertEqual(self.c.store.task('host-A',T)['status'],'paused')
+        self.assertFalse(self.runtime.backend.sends)
+        self.next_human();self.c.tick();self.assertEqual(self.c.store.task('host-A',T)['status'],'armed')
+
+    def test_off_removes_persistent_consent_for_future_tasks(self):
+        self.c.connect(T,'task',True);self.c.off(T);self.next_human('failed');self.c.tick()
+        self.assertFalse(self.c.store.connections('host-A'));self.assertFalse(self.runtime.backend.sends)
+
+    def test_persistent_consent_survives_restart_but_not_other_host(self):
+        self.c.connect(T,explicit=True);self.next_human('failed')
+        Controller(self.root,'host-B',self.runtime,lambda:self.now).tick()
+        self.assertFalse(self.runtime.backend.sends)
+        Controller(self.root,'host-A',self.runtime,lambda:self.now).tick()
+        self.assertEqual(len(self.runtime.backend.sends),1)
+
+    def test_missing_user_item_and_own_continuation_do_not_create_task(self):
+        self.c.connect(T,explicit=True);self.next_human('failed')
+        self.runtime.source.later[0]['reason']='turn_without_user_item';self.c.tick()
+        self.assertIsNone(self.c.store.task('host-A',T))
+        self.runtime.source.later[0].update(kind='ours',reason=None);self.c.tick()
+        self.assertIsNone(self.c.store.task('host-A',T))
+
+    def test_connected_stale_history_never_adopts(self):
+        self.c.connect(T,explicit=True);self.next_human('failed');self.runtime.source.fresh=False
+        self.c.tick();self.assertIsNone(self.c.store.task('host-A',T))
+
+    def test_concurrent_connected_watchers_adopt_and_send_once(self):
+        self.c.connect(T,explicit=True);self.next_human('failed')
+        other=Controller(self.root,'host-A',self.runtime,lambda:self.now)
+        workers=[threading.Thread(target=c.tick) for c in (self.c,other)]
+        for worker in workers:worker.start()
+        for worker in workers:worker.join()
+        self.assertEqual(len(self.runtime.backend.sends),1)
 
 if __name__=='__main__':unittest.main()

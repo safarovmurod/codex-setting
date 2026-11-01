@@ -37,3 +37,5 @@ SC-06: No credential/session/database file or secret is included in the publishe
 
 ## Assumptions
 Windows x64 and Android; host remains awake/online. Owner handles login, QR pairing and optional plugins. Tests never deliberately exhaust quota. Native Android slash is optional; @AUTORUN is accepted. A later human turn conservatively requires explicit rearming.
+# Accepted change — persistent chat connection (2026-11-01)
+The owner's latest request supersedes task-only consent: an explicit AUTORUN invocation connects the exact host/chat until off, even with no current task. Later ordinary human turns are adopted automatically as separate task generations. Completion and Stop/Pause stop current work without disconnecting; only a new human turn can start later work. No completed/stopped task is resumed on its own. Unconnected chats/forks/hosts remain excluded. Existing task-only records must not silently become persistent consent. Quota evidence and exactly-once dispatch remain required.
