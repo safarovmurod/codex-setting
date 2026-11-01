@@ -11,5 +11,8 @@ config=json.loads(descriptor.read_text(encoding='utf-8'))
 root=Path(config['root'])
 if not root.is_absolute() or not (root/'installation.json').is_file():raise SystemExit('Installation unavailable.')
 result=subprocess.run([config['python'],str(root/'app/runner.py'),'--install-root',str(root),*sys.argv[1:]],
+    stdout=subprocess.PIPE,stderr=subprocess.PIPE,
     creationflags=getattr(subprocess,'CREATE_NO_WINDOW',0))
+sys.stdout.buffer.write(result.stdout)
+sys.stderr.buffer.write(result.stderr)
 raise SystemExit(result.returncode)

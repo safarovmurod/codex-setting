@@ -11,12 +11,13 @@ from .common import PRODUCT, atomic_write, confined, digest, file_lock, load_jso
 from .preferences import desired_config, merge, toml_dump
 
 
-def render_agents(data: bytes, user_home: Path) -> bytes:
+def render_agents(data: bytes, user_home: Path, root: Path) -> bytes:
     """Map known source-host instruction paths without changing the snapshot."""
     value = data.decode('utf-8')
     replacements = {
         'C:/Users/safar/.agents/skills': (user_home/'.agents/skills').as_posix(),
         'C:/Users/safar/.codex/AGENTS.md': (user_home/'.codex/AGENTS.md').as_posix(),
+        'D:/User/CodexAutoStart': (root/'recovery').as_posix(),
     }
     for source, target in replacements.items():
         value = value.replace(source, target)
@@ -41,7 +42,7 @@ def install(source: Path, root: Path, user_home: Path, documents: Path):
         for rel in hashes:
             target=user_home/'.codex/AGENTS.md' if rel=='AGENTS.md' else confined(user_home/'.agents',rel)
             data=confined(source/'payload',rel).read_bytes()
-            candidates[target]=render_agents(data,user_home) if rel=='AGENTS.md' else data
+            candidates[target]=render_agents(data,user_home,root) if rel=='AGENTS.md' else data
         for file in (source/'skills').rglob('*'):
             if file.is_file():
                 target=confined(user_home/'.agents/skills',file.relative_to(source/'skills').as_posix())
