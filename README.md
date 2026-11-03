@@ -21,8 +21,8 @@ Set-Location codex-setting
 | Чиз | Ҷой |
 |---|---|
 | Қоидаҳои пурра ва гапзанӣ | ~/.codex/AGENTS.md |
-| Настройкаҳои portable ва 6 скилли хомӯш | ~/.codex/config.toml |
-| 35 скилли шахсӣ + AUTORUN | ~/.agents/skills |
+| Настройкаҳои portable ва 5 скилли хомӯш | ~/.codex/config.toml |
+| 34 скилли шахсӣ + AUTORUN | ~/.agents/skills |
 | Controller, Python ва backup | Root-и насб; ҷудо аз auth/session |
 | Personalization-и ChatGPT | Майдони воқеии Settings; [ҷараёни автоматии агент](docs/personalization.md) |
 | Ҳамаи 80 leaf-и config-и манбаъ | [харитаи disposition](profiles/settings-map.json) |
@@ -91,7 +91,7 @@ Uninstall ҳоло cache-и плагини маҳаллии AUTORUN-ро пур�
 | Plugin Management | фаъол | Пешфарзи система |
 | Pets | фаъол | Пешфарзи система |
 
-Плагини shared «Шеф Assistant» ба ҳисоби/workspace вобаста аст ва дар ин snapshot бастаи насбшаванда надорад. Агар дар ҳисоби нав дастрас бошад, аз Shared with me manual интихоб кун. autoglm-browser-agent хомӯш мемонад; executable-и шахсии он танҳо ҳамчун snapshot бо hash нигоҳ дошта шудааст ва насбкунанда онро иҷро намекунад.
+Плагини shared «Шеф Assistant» ба ҳисоби/workspace вобаста аст ва дар ин snapshot бастаи насбшаванда надорад. Агар дар ҳисоби нав дастрас бошад, аз Shared with me manual интихоб кун. autoglm-browser-agent ва executable-и он 2026-11-03 бо қарори соҳиб аз payload гирифта шуд; сатри хомӯши он дар config мемонад, то нусхаи кӯҳна дар host фаъол нашавад.
 
 ## Санҷиш ва далел
 ```powershell

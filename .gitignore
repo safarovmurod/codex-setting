@@ -12,7 +12,6 @@ work/
 .DS_Store
 Thumbs.db
 *.exe
-!payload/skills/autoglm-browser-agent/dist/autoglm-browser-service.exe
 *.zip
 *.key
 *.pem

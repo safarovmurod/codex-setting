@@ -51,7 +51,7 @@
         },
         {
           "path": "${USERPROFILE}/.agents/skills/mansur-frontend-mentor/SKILL.md",
-          "enabled": false
+          "enabled": true
         }
       ]
     },
@@ -70,7 +70,6 @@
   "personal_skills": [
     "agent-browser",
     "android-cli",
-    "autoglm-browser-agent",
     "automate",
     "autopilot",
     "canvas",

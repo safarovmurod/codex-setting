@@ -93,7 +93,7 @@ class InstallationTests(unittest.TestCase):
         hashes=json.loads((ROOT/'profiles/payload-sha256.json').read_text())
         for rel,expected in hashes.items():self.assertEqual(hashlib.sha256((ROOT/'payload'/rel).read_bytes()).hexdigest(),expected,rel)
         profile=json.loads((ROOT/'profiles/owner.json').read_text(encoding='utf-8'))
-        self.assertEqual(len(profile['personal_skills']),35);self.assertEqual(len(profile['config']['skills']['config']),6)
+        self.assertEqual(len(profile['personal_skills']),34);self.assertEqual(len(profile['config']['skills']['config']),6)
     def test_real_config_roundtrip(self):
         profile=json.loads((ROOT/'profiles/owner.json').read_text(encoding='utf-8'))
         self.assertEqual(tomllib.loads(toml_dump(profile['config'])),profile['config'])
