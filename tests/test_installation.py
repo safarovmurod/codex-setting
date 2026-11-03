@@ -70,7 +70,7 @@ class InstallationTests(unittest.TestCase):
         cfg.write_text(toml_dump({'model':'old'}),encoding='utf-8')
         self.run_install();before=cfg.read_bytes()
         changed=tomllib.loads(before.decode());changed['plugins']={'autorun@codex-setting':{'enabled':True}}
-        changed['marketplaces']={'codex-setting':{'source':str(self.dest/'app'),'source_type':'local'}}
+        changed['marketplaces']={'codex-setting':{'source':str(self.dest.resolve()/'app'),'source_type':'local'}}
         cfg.write_text(toml_dump(changed),encoding='utf-8')
         encoded=base64.b64encode(before).decode('ascii')
         wrapped='\r\n'.join(encoded[i:i+80] for i in range(0,len(encoded),80))

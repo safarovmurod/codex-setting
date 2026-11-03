@@ -118,7 +118,8 @@ def finalize_plugin_config(root: Path, before: bytes):
         actual=str(marketplace['source'])
         if actual.startswith('\\\\?\\'):actual=actual[4:]
         expected=str(root/'app')
-        if os.path.normcase(os.path.abspath(actual))!=os.path.normcase(os.path.abspath(expected)):raise ValueError('PLUGIN_MARKETPLACE_WRONG_ROOT')
+        # realpath, not abspath: Windows hands out 8.3 short names that name the same folder.
+        if os.path.normcase(os.path.realpath(actual))!=os.path.normcase(os.path.realpath(expected)):raise ValueError('PLUGIN_MARKETPLACE_WRONG_ROOT')
         old_marketplace=old.get('marketplaces',{}).get('codex-setting')
         if old_marketplace is not None and old_marketplace!=marketplace:raise ValueError('PLUGIN_MARKETPLACE_CHANGED')
         # Ignore only the requested plugin and its verified marketplace entries.
