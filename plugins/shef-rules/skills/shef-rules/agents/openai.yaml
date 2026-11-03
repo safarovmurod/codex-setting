@@ -1,0 +1,5 @@
+interface:
+  display_name: "Шеф Rules"
+  short_description: "Қоидаҳои шахсии шеф барои ҳар чат"
+policy:
+  allow_implicit_invocation: true

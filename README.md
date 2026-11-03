@@ -5,7 +5,9 @@
 ## Насб аз чат
 Ссылкаи ҳамин репоро ба Codex ё Android Remote-и ба Windows пайвастшуда деҳ ва бигӯ:
 
-> Шеф, codex-setting-ро дар ҳамин host насб кун: README ва AGENTS.md-ро хон, Install.ps1-ро иҷро кун, doctor ва personalization-ро то read-back санҷ. AUTORUN-ро то даъвати худам фаъол накун.
+> https://github.com/safarovmurod/codex-setting бги тугриш кн
+
+Ҳамин бас аст. Агент AGENTS.md-ро мехонад ва худаш ҳамаашро мекунад: Install.ps1, doctor, personalization-и ChatGPT то read-back, zip ва upload-и плагини «Шеф Rules» барои телефон. Танҳо барои sign-in, MFA, QR, UAC ё интихоби файл туро мепурсад. AUTORUN то даъвати худат фаъол намешавад.
 
 GitHub-и private бояд барои ҳисоби воридшуда дастрас бошад. Агар git clone дастрас бошад:
 ```powershell
@@ -31,6 +33,8 @@ Set-Location codex-setting
 
 ## AUTORUN
 Дар ПК `/` → AUTORUN. Дар Android slash агар бошад, вагарна `@AUTORUN` аз selector. [Роҳи Android](docs/android.md).
+
+Барои телефон ва cloud: плагини ҳисоби «Шеф Rules» ҳамон қоидаҳои ПК-ро мебарад (`python tools/build_mobile_plugin.py --zip dist`, баъд Upload plugin archive). Чӣ худкор аст ва чӣ не — [docs/android.md](docs/android.md#ҳама-чиз-дар-телефон--чӣ-худкор-аст-чӣ-не).
 
 - `AUTORUN` — як бор ҳамин чатро пайваст мекунад; баъд вазифаҳоро одӣ навис.
 - `AUTORUN <вазифа>` — чатро пайваст карда, ҳамон вазифаро оғоз мекунад.

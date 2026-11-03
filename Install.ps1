@@ -53,7 +53,7 @@ if ($task) {
 }
 $app = Join-Path $rootPath 'app'
 New-Item -ItemType Directory -Path $app -Force | Out-Null
-foreach ($folder in @('src','payload','profiles','skills','docs','third_party','scripts','plugins','.agents/plugins')) {
+foreach ($folder in @('src','payload','profiles','skills','docs','third_party','scripts','plugins','.agents/plugins','tools')) {
     $from = Join-Path $sourcePath $folder
     $to = Join-Path $app $folder
     if ([IO.Path]::GetFullPath($from) -eq [IO.Path]::GetFullPath($to)) { continue }
@@ -119,6 +119,13 @@ if (-not $NoStartup) {
     Register-ScheduledTask -TaskName $taskName -Action $action -Trigger $trigger -Principal $principal -Settings $settings -Force | Out-Null
     Start-ScheduledTask -TaskName $taskName
 }
+# Phone/cloud: build the account plugin archive from the installed PC rules (upload stays an owner UI step).
+$dist = Join-Path $rootPath 'dist'
+& $python (Join-Path $app 'tools\build_mobile_plugin.py') --zip $dist
+if ($LASTEXITCODE -ne 0) { Write-Warning 'Шеф Rules plugin archive was not built.' }
+$doctorJson = & $python $runner --install-root $rootPath doctor
+$doctorJson
 Write-Output "Шеф, файлҳо насб шуданд. AUTORUN то даъвати худат фаъол намешавад."
+Write-Output "Плагини телефон: $dist (ChatGPT -> Plugins -> Add -> Upload plugin archive)."
 Write-Output "Санҷиш: & '$app\CodexSetting.ps1' doctor"
-Write-Output 'Барои personalization ва Android: docs/personalization.md ва docs/android.md; натиҷа танҳо баъди санҷиши UI тасдиқ мешавад.'
+Write-Output 'Қадамҳои боқимонда (UI): docs/personalization.md, Upload-и плагин ва docs/android.md; натиҷа танҳо баъди санҷиши UI тасдиқ мешавад.'

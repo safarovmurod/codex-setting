@@ -1,0 +1,24 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "shef-rules",
+  "version": "1.0.13526511",
+  "description": "Personal rules of «шеф» for phone and cloud chats; built from the PC AGENTS.md and mentor skill.",
+  "author": {
+    "name": "codex-setting"
+  },
+  "repository": "https://github.com/safarovmurod/codex-setting",
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Шеф Rules",
+        "shortDescription": "Қоидаҳои ПК дар телефон ва cloud",
+        "longDescription": "Ҳамон қоидаҳои AGENTS.md ва скилли frontend-и ПК барои чатҳои телефон ва cloud. Аз ҳамин репо худкор сохта мешавад.",
+        "developerName": "codex-setting",
+        "category": "Productivity",
+        "capabilities": [
+          "skills"
+        ]
+      }
+    }
+  }
+}
