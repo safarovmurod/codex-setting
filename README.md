@@ -13,7 +13,7 @@
 Ин репо **private** аст, пас `irm ... | iex` кор намекунад — download-и беном 404 медиҳад. Як сатр: худаш clone мекунад, худаш боз мекунад, худаш насб мекунад ва папкаи муваққатиро тоза мекунад.
 
 ```powershell
-$d="$env:TEMP\codex-setting"; Remove-Item $d -Recurse -Force -ErrorAction SilentlyContinue; git clone -q https://github.com/safarovmurod/codex-setting.git $d; & "$d\bootstrap.ps1"
+$d="$env:TEMP\codex-setting"; Remove-Item $d -Recurse -Force -ErrorAction SilentlyContinue; git clone -q https://github.com/safarovmurod/codex-setting.git $d; & "$d\bootstrap.ps1"; Remove-Item $d -Recurse -Force -ErrorAction SilentlyContinue
 ```
 
 Агар clone-и доимӣ хоҳӣ:
