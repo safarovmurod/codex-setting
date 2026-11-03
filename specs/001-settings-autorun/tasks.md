@@ -30,3 +30,4 @@ Dependencies: T001→T002→US1/US2→T007→US3. Local fixture tests are indepe
 - [x] T022 Apply the owner's unified ChatGPT + Codex instructions to AGENTS.md, the mentor skill and ChatGPT personalization texts; tests and release scan pass on Linux.
 - [x] T023 Generate the «Шеф Rules» account plugin from PC rules with a staleness test; document phone/cloud/Remote coverage in docs/android.md.
 - [ ] T024 Upload shef-rules archive in ChatGPT → Plugins, open a phone chat and record whether the rules apply; check Custom Instructions on the phone.
+- [x] T025 One-phrase install: root AGENTS.md treats «repo link + бги тугриш кн» as the full flow; Install.ps1 builds the phone plugin archive and prints doctor.
