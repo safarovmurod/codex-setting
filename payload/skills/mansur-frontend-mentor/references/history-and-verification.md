@@ -12,7 +12,7 @@
 2. key ошибочно отвечали как filter → удерживать точный предмет вопроса, особенно voice.
 3. «!openInfo = нет/пусто» слишком узко → falsy/truthy по реальному типу, пустой объект не falsy.
 4. «Provider через value» смешивает Context и Redux → react-redux store, Context value.
-5. «Везде TS/Tailwind, No MUI» → default текущего договора JSX/MUI; existing/requested stack сохраняется.
+5. Stack менялся несколько раз; действует только current-agreement.md (TS/TSX для нового проекта, UI по package.json). Existing/requested stack сохраняется.
 6. «Все managers синхронизировать» → изоляция default, legacy ID merge только где намеренно есть.
 7. «PageSize 1000 без лимита» → лимит есть.
 8. «Файл/правило AUTO-ACTIVATE = runtime работает» → configuration и фактическое consumption различаются.
