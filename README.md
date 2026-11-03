@@ -32,6 +32,8 @@ Set-Location codex-setting
 ## AUTORUN
 Дар ПК `/` → AUTORUN. Дар Android slash агар бошад, вагарна `@AUTORUN` аз selector. [Роҳи Android](docs/android.md).
 
+Барои телефон ва cloud: плагини ҳисоби «Шеф Rules» ҳамон қоидаҳои ПК-ро мебарад (`python tools/build_mobile_plugin.py --zip dist`, баъд Upload plugin archive). Чӣ худкор аст ва чӣ не — [docs/android.md](docs/android.md#ҳама-чиз-дар-телефон--чӣ-худкор-аст-чӣ-не).
+
 - `AUTORUN` — як бор ҳамин чатро пайваст мекунад; баъд вазифаҳоро одӣ навис.
 - `AUTORUN <вазифа>` — чатро пайваст карда, ҳамон вазифаро оғоз мекунад.
 - `AUTORUN status` — ҳолати ҳамин чат.

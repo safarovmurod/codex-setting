@@ -28,3 +28,5 @@ Dependencies: T001→T002→US1/US2→T007→US3. Local fixture tests are indepe
 - [x] T020 Remove autoglm-browser-agent and its executable from payload/export; keep disabled config entry; add auto-recommended choice and verification rules to AGENTS.md.
 - [ ] T021 On the Windows host, delete any leftover ~/.agents/skills/autoglm-browser-agent and ~/.openclaw-autoclaw only after owner review.
 - [x] T022 Apply the owner's unified ChatGPT + Codex instructions to AGENTS.md, the mentor skill and ChatGPT personalization texts; tests and release scan pass on Linux.
+- [x] T023 Generate the «Шеф Rules» account plugin from PC rules with a staleness test; document phone/cloud/Remote coverage in docs/android.md.
+- [ ] T024 Upload shef-rules archive in ChatGPT → Plugins, open a phone chat and record whether the rules apply; check Custom Instructions on the phone.

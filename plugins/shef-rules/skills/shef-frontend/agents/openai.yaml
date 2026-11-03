@@ -1,0 +1,5 @@
+interface:
+  display_name: "Шеф Frontend"
+  short_description: "Frontend-договор: stack, UI, код, API, дарс"
+policy:
+  allow_implicit_invocation: true
