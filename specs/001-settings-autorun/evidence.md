@@ -3,7 +3,7 @@
 | Requirement | Observed result | Status |
 |---|---|---|
 | FR-01 private repository | safarovmurod/codex-setting created, private=true; main published; clean GitHub clone tests/hash scan passed | Verified |
-| FR-02 owner snapshot | 35 personal skills, six disabled entries, 177 payload hashes; 12 removed plugins not reinstalled | Verified locally |
+| FR-02 owner snapshot | 35 personal skills, six skill entries (five disabled; mansur-frontend-mentor enabled 2026-11-03), 177 payload hashes; 12 removed plugins not reinstalled | Verified locally |
 | FR-03 destination mapping | 80 config leaves classified; actual install read back 182 owned files, node_repl runtime command present. 29 app-managed leaves are not individually generated or checked by this installer; a clean host must be checked separately | Partial: current host file hashes verified; fresh-host runtime not verified |
 | FR-04 actual personalization | Codex AGENTS.md installed and loaded; ChatGPT actual Custom Instructions saved, reopened and normalized text matched (1529 characters); nickname/occupation preserved | Verified desktop; Android sync not yet observed |
 | FR-05 manual plugins | README lists all 31 remaining installed plugins, source state and install route | Implemented |
@@ -27,3 +27,5 @@ Explicit task c9dc8698-ef98-4156-acaa-5b547354bf22 is armed for root chat 01a193
 Persistent chat consent (latest owner requirement): account plugin 1.1.0 uploaded and version read back; host controller installed and current chat connected=true until explicit off. Old task consent is not auto-upgraded. 60 tests cover followups, completion, Stop, off, restart, isolated hosts, missing-user evidence and concurrent watchers. The live history API positively classified the latest human turn (fresh projection), without a queue send. A later ordinary phone task and natural quota reset still need live observation.
 
 2026-11-01 followup: the watcher adopted a real ordinary human followup in this connected chat as task fc457c8f-26b1-445b-abc3-02c7d41c65e6 (checkpoint 2614), without a repeated invocation. Live autoruoff returned off, then status read connected=false with zero pending cancellations. Reconnected explicitly after the authorized off/on verification; final connected=true. 61 tests pass, including offline autoruoff. Removed an unreachable duplicate watcher branch. No quota dispatch was induced.
+
+2026-11-03 settings cleanup (owner decisions): payload AGENTS.md consolidated into one rule set (address «шеф», JSX + MUI default, Spec Kit only for large work, added honesty/workflow/verification rules); mansur-frontend-mentor and ChatGPT personalization text aligned to JSX + MUI; mentor skill enabled. Linux: 61 tests OK (7 Windows-only skipped), release scan PASS with 177 hashes. Not verified: Windows install/doctor of the new AGENTS.md, and the ChatGPT Custom Instructions UI still holds the earlier TS/HTML-CSS text until the owner re-saves it per docs/personalization.md.

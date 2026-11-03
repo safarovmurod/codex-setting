@@ -23,3 +23,5 @@
 Dependencies: T001→T002→US1/US2→T007→US3. Local fixture tests are independent; actual device/reset gates are separate. No extra agents are required for implementation.
 - [x] T016 Add explicit persistent chat connections, task adoption, off/Stop/completion behavior and regression coverage.
 - [x] T017 Install updated host entrypoints and upload account plugin 1.1.0; verify positive latest-human classification on the real host without a model request.
+- [x] T018 Consolidate payload AGENTS.md, align stack to JSX + MUI, limit Spec Kit to large work, enable mansur-frontend-mentor; tests and release scan pass on Linux.
+- [ ] T019 Re-run Install.ps1/doctor on the Windows host and re-save ChatGPT Custom Instructions from the updated profile; record read-back.

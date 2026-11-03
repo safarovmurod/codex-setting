@@ -51,7 +51,7 @@
         },
         {
           "path": "${USERPROFILE}/.agents/skills/mansur-frontend-mentor/SKILL.md",
-          "enabled": false
+          "enabled": true
         }
       ]
     },

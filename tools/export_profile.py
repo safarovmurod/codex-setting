@@ -42,7 +42,7 @@ def main():
         item['path']='${USERPROFILE}/.agents/skills/'+Path(item['path']).parent.name+'/SKILL.md'
     # SDK/pipe env and notification helpers are deliberately rediscovered on the destination.
     agents=(a.codex_home/'AGENTS.md').read_text(encoding='utf-8-sig')
-    agents+='\n<!-- CODEX-SETTING-VOICE -->\n## Гапзании одӣ\nБа шеф бо тоҷикии одии Душанбе ҷавоб деҳ: кӯтоҳ, равон ва амалӣ. Ҷумлаҳои адабӣ, таърифи зиёдатӣ ва дарси напурсидаро илова накун. Калимаи техникиро вақте лозим аст, сода фаҳмон. Натиҷаи насанҷидаро «тайёр» нагӯй.\n<!-- END-CODEX-SETTING-VOICE -->\n'
+    if '<!-- CODEX-SETTING-VOICE -->' not in agents:agents+='\n<!-- CODEX-SETTING-VOICE -->\n## Гапзании одӣ\nБа шеф бо тоҷикии одии Душанбе ҷавоб деҳ: кӯтоҳ, равон ва амалӣ. Ҷумлаҳои адабӣ, таърифи зиёдатӣ ва дарси напурсидаро илова накун. Калимаи техникиро вақте лозим аст, сода фаҳмон. Натиҷаи насанҷидаро «тайёр» нагӯй.\n<!-- END-CODEX-SETTING-VOICE -->\n'
     out=ROOT/'payload';(out/'skills').mkdir(parents=True,exist_ok=True)
     (out/'AGENTS.md').write_text(agents,encoding='utf-8')
     names=[];excluded=[]

@@ -21,7 +21,7 @@ Set-Location codex-setting
 | Чиз | Ҷой |
 |---|---|
 | Қоидаҳои пурра ва гапзанӣ | ~/.codex/AGENTS.md |
-| Настройкаҳои portable ва 6 скилли хомӯш | ~/.codex/config.toml |
+| Настройкаҳои portable ва 5 скилли хомӯш | ~/.codex/config.toml |
 | 35 скилли шахсӣ + AUTORUN | ~/.agents/skills |
 | Controller, Python ва backup | Root-и насб; ҷудо аз auth/session |
 | Personalization-и ChatGPT | Майдони воқеии Settings; [ҷараёни автоматии агент](docs/personalization.md) |
