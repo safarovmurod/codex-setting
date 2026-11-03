@@ -5,7 +5,7 @@
 #   .\bootstrap.ps1
 #
 # One line, no clone kept:
-#   $d="$env:TEMP\codex-setting"; Remove-Item $d -Recurse -Force -ErrorAction SilentlyContinue; git clone -q https://github.com/safarovmurod/codex-setting.git $d; & "$d\bootstrap.ps1"
+#   $d="$env:TEMP\codex-setting"; Remove-Item $d -Recurse -Force -ErrorAction SilentlyContinue; git clone -q https://github.com/safarovmurod/codex-setting.git $d; & "$d\bootstrap.ps1"; Remove-Item $d -Recurse -Force -ErrorAction SilentlyContinue
 #
 # Checks afterwards:
 #   .\bootstrap.ps1 -Action doctor
