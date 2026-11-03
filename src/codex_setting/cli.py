@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import base64
+import codecs
 import json
 import os
 from pathlib import Path
@@ -30,9 +31,11 @@ def main(argv=None):
     try:
         if a.command=='install':result=install(a.source,root,a.user_home,a.documents)
         elif a.command=='finalize-plugin-config':
-            encoded=sys.stdin.buffer.readline(4000001)
+            # PowerShell prefixes a UTF-8 BOM and may wrap what it pipes to a native command.
+            encoded=sys.stdin.buffer.read(4000001)
             if len(encoded)>4000000:raise ValueError('PLUGIN_CONFIG_BASELINE_TOO_LARGE')
-            result=finalize_plugin_config(root,base64.b64decode(encoded.strip(),validate=True))
+            if encoded.startswith(codecs.BOM_UTF8):encoded=encoded[len(codecs.BOM_UTF8):]
+            result=finalize_plugin_config(root,base64.b64decode(b''.join(encoded.split()),validate=True))
         elif a.command in ['doctor','status']:result=doctor(root)
         elif a.command=='uninstall':result=uninstall(root)
         else:
