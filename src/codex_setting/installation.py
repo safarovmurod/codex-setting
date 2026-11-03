@@ -53,6 +53,9 @@ def install(source: Path, root: Path, user_home: Path, documents: Path):
         # An existing target's device choices are already valid for that target.
         for k in ['projectlessWorkspaceRoot','git-worktree-root','microphoneInputDeviceId','open-in-target-preferences']:
             if k in old.get('desktop',{}):desired.setdefault('desktop',{})[k]=old['desktop'][k]
+        # Model, effort and tier are the owner's account choices; never roll them back.
+        for k in ['model','model_reasoning_effort','service_tier']:
+            if k in old:desired[k]=old[k]
         candidates[cfg_file]=toml_dump(merge(old,desired)).encode('utf-8')
         descriptor=user_home/'.codex/codex-setting.json'
         python=root/'recovery/package/payload/runtime/python.exe'
