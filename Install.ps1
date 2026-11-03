@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
     [string]$InstallRoot,
     [string]$ArchivePath,
@@ -30,26 +30,61 @@ $markerFile = Join-Path $rootPath 'installation.json'
 if (Test-Path -LiteralPath $rootPath) {
     if (Test-Path -LiteralPath $markerFile) {
         $marker = Get-Content -LiteralPath $markerFile -Raw | ConvertFrom-Json
-        if ($marker.product -ne 'codex-setting' -or $marker.owner_sid -ne $sid) { throw 'This directory belongs to another installation or user.' }
+        if ($marker.product -ne 'codex-setting') { throw 'This directory belongs to another installation or user.' }
+        # A marker written by the Python installer carries no owner_sid; only a different one is foreign.
+        if ($marker.owner_sid -and $marker.owner_sid -ne $sid) { throw 'This directory belongs to another installation or user.' }
     } elseif (@(Get-ChildItem -LiteralPath $rootPath -Force).Count) { throw 'The target folder is not empty and is not owned by codex-setting.' }
 }
-$codex = Get-Command codex.exe -ErrorAction SilentlyContinue
+$codexHome = if ($env:CODEX_HOME) { $env:CODEX_HOME } else { Join-Path $env:USERPROFILE '.codex' }
+function Resolve-CodexExe([string]$CodexHomePath) {
+    # The desktop build is not on PATH; its real path is recorded in config.toml and under LOCALAPPDATA.
+    $command = Get-Command codex.exe -ErrorAction SilentlyContinue
+    if ($command) { return $command.Source }
+    $config = Join-Path $CodexHomePath 'config.toml'
+    if (Test-Path -LiteralPath $config) {
+        $pattern = "(?m)^\s*CODEX_CLI_PATH\s*=\s*['`"]([^'`"]+)['`"]"
+        $match = [regex]::Match((Get-Content -LiteralPath $config -Raw), $pattern)
+        if ($match.Success) {
+            $recorded = $match.Groups[1].Value
+            if (Test-Path -LiteralPath $recorded) { return $recorded }
+        }
+    }
+    $bin = Join-Path $env:LOCALAPPDATA 'OpenAI\Codex\bin'
+    if (Test-Path -LiteralPath $bin) {
+        $newest = Get-ChildItem -LiteralPath $bin -Recurse -Filter 'codex.exe' -ErrorAction SilentlyContinue | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+        if ($newest) { return $newest.FullName }
+    }
+    return $null
+}
+$codexExe = Resolve-CodexExe $codexHome
 if (-not (Get-AppxPackage -Name 'OpenAI.Codex' -ErrorAction SilentlyContinue)) {
     & winget install --id 9PLM9XGG6VKS -s msstore
     if ($LASTEXITCODE -ne 0) { throw 'Official desktop installation needs owner/Windows action. Run Install.ps1 again after it completes.' }
+    $codexExe = Resolve-CodexExe $codexHome
 }
-if (-not $codex) {
+if (-not $codexExe) {
     throw 'Open ChatGPT/Codex once, sign in and let its native runtime finish installing; then run Install.ps1 again. No authentication will be copied.'
 }
-$codexHome = if ($env:CODEX_HOME) { $env:CODEX_HOME } else { Join-Path $env:USERPROFILE '.codex' }
 if ([IO.Path]::GetFullPath($codexHome) -ne [IO.Path]::GetFullPath((Join-Path $env:USERPROFILE '.codex'))) { throw 'A custom CODEX_HOME requires a separate profile; this owner profile targets the standard .codex directory.' }
 New-Item -ItemType Directory -Path $rootPath -Force | Out-Null
-if (-not (Test-Path -LiteralPath $markerFile)) { Write-Json $markerFile @{product='codex-setting';owner_sid=$sid;host_id=[guid]::NewGuid().ToString();files=@{}} }
+if (-not (Test-Path -LiteralPath $markerFile)) {
+    Write-Json $markerFile @{product='codex-setting';owner_sid=$sid;host_id=[guid]::NewGuid().ToString();files=@{}}
+} else {
+    $existingMarker = Get-Content -LiteralPath $markerFile -Raw | ConvertFrom-Json
+    if (-not $existingMarker.owner_sid) {
+        $existingMarker | Add-Member -NotePropertyName owner_sid -NotePropertyValue $sid -Force
+        Write-Json $markerFile $existingMarker
+    }
+}
 $taskName = 'CodexSetting.Autorun'
 $task = Get-ScheduledTask -TaskName $taskName -ErrorAction SilentlyContinue
 if ($task) {
-    if ($task.Actions.Execute -ne (Join-Path $rootPath 'recovery\package\payload\runtime\pythonw.exe') -or -not $task.Actions.Arguments.Contains($rootPath)) { throw 'An unrelated scheduled task uses CodexSetting.Autorun.' }
-    Stop-ScheduledTask -TaskName $taskName
+    $taskArguments = @($task.Actions.Arguments) -join ' '
+    $pointsHere = ($task.Actions.Execute -eq (Join-Path $rootPath 'recovery\package\payload\runtime\pythonw.exe')) -and $taskArguments.Contains($rootPath)
+    # A task of this name left by an install at another root is still this product's; it is re-pointed below.
+    $ownRunner = ($taskArguments -match 'app[\\/]runner\.py') -and ($taskArguments -match '--install-root') -and ($taskArguments -match '(^|\s)watch(\s|$)')
+    if (-not $pointsHere -and -not $ownRunner) { throw 'An unrelated scheduled task uses CodexSetting.Autorun.' }
+    Stop-ScheduledTask -TaskName $taskName -ErrorAction SilentlyContinue | Out-Null
 }
 $app = Join-Path $rootPath 'app'
 New-Item -ItemType Directory -Path $app -Force | Out-Null
@@ -77,7 +112,7 @@ if ($ArchivePath) { $prepare.ArchivePath=$ArchivePath }
 New-Item -ItemType Directory -Path (Join-Path $recovery 'scripts') -Force | Out-Null
 Copy-Item -LiteralPath (Join-Path $app 'scripts\recovery-control.py') -Destination (Join-Path $recovery 'scripts\recovery-control.py') -Force
 Copy-Item -LiteralPath $metaPath -Destination (Join-Path $recovery 'upstream.json') -Force
-Write-Json (Join-Path $recovery 'recovery.json') @{schemaVersion=1;product='CodexAutoStart.Recovery';installRoot=$recovery;packageRoot=$package;stateRoot=(Join-Path $recovery 'state');codexExe=$codex.Source;codexHome=$codexHome}
+Write-Json (Join-Path $recovery 'recovery.json') @{schemaVersion=1;product='CodexAutoStart.Recovery';installRoot=$recovery;packageRoot=$package;stateRoot=(Join-Path $recovery 'state');codexExe=$codexExe;codexHome=$codexHome}
 Write-Json (Join-Path $recovery 'installation.json') @{schemaVersion=1;product='CodexAutoStart.Recovery';ownerSid=$sid;upstreamVersion=$meta.version;archiveSha256=$meta.sha256}
 $python = Join-Path $package 'payload\runtime\python.exe'
 $pythonw = Join-Path $package 'payload\runtime\pythonw.exe'
@@ -89,7 +124,7 @@ if ($LASTEXITCODE -ne 0) { throw 'Pinned recovery payload validation failed.' }
 if ($LASTEXITCODE -ne 0) { throw 'Preference installation failed; backups retained.' }
 # Keep the original backup; accept only the verified AUTORUN plugin key in the receipt.
 $pluginConfigBefore = [Convert]::ToBase64String([IO.File]::ReadAllBytes((Join-Path $codexHome 'config.toml')))
-$pluginResult = & (Join-Path $app 'scripts\Register-AutorunPlugin.ps1') -CodexExe $codex.Source -AppRoot $app
+$pluginResult = & (Join-Path $app 'scripts\Register-AutorunPlugin.ps1') -CodexExe $codexExe -AppRoot $app
 if ($pluginResult.status -in @('installed','present')) {
     $pluginConfigBefore | & $python $runner --install-root $rootPath finalize-plugin-config
     if ($LASTEXITCODE -ne 0) { throw 'Plugin config changed unexpectedly; run doctor and review before repair.' }

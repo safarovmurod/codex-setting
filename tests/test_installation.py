@@ -1,3 +1,4 @@
+import codecs
 import hashlib
 import json
 from pathlib import Path
@@ -61,6 +62,24 @@ class InstallationTests(unittest.TestCase):
         finalize_plugin_config(self.dest,before)
         self.assertTrue(doctor(self.dest)['files_ok'])
         self.assertFalse(uninstall(self.dest)['conflicts']);self.assertEqual(cfg.read_bytes(),original)
+    def test_plugin_receipt_accepts_powershell_stdin(self):
+        # PowerShell prefixes a UTF-8 BOM and may wrap the base64 it pipes into a native command.
+        import base64, io, sys
+        from codex_setting import cli
+        (self.user/'.codex').mkdir(parents=True);cfg=self.user/'.codex/config.toml'
+        cfg.write_text(toml_dump({'model':'old'}),encoding='utf-8')
+        self.run_install();before=cfg.read_bytes()
+        changed=tomllib.loads(before.decode());changed['plugins']={'autorun@codex-setting':{'enabled':True}}
+        changed['marketplaces']={'codex-setting':{'source':str(self.dest/'app'),'source_type':'local'}}
+        cfg.write_text(toml_dump(changed),encoding='utf-8')
+        encoded=base64.b64encode(before).decode('ascii')
+        wrapped='\r\n'.join(encoded[i:i+80] for i in range(0,len(encoded),80))
+        piped=codecs.BOM_UTF8+wrapped.encode('ascii')+b'\r\n'
+        stdin=sys.stdin
+        sys.stdin=type('S',(),{'buffer':io.BytesIO(piped)})()
+        try:cli.main(['--install-root',str(self.dest),'finalize-plugin-config'])
+        finally:sys.stdin=stdin
+        self.assertTrue(doctor(self.dest)['files_ok'])
     def test_plugin_receipt_refuses_unrelated_changes(self):
         self.run_install();cfg=self.user/'.codex/config.toml';before=cfg.read_bytes()
         changed=tomllib.loads(before.decode());changed['plugins']={'autorun@codex-setting':{'enabled':True}}

@@ -9,21 +9,39 @@
 
 Ҳамин бас аст. Агент AGENTS.md-ро мехонад ва худаш ҳамаашро мекунад: Install.ps1, doctor, personalization-и ChatGPT то read-back, zip ва upload-и плагини «Шеф Rules» барои телефон. Танҳо барои sign-in, MFA, QR, UAC ё интихоби файл туро мепурсад. AUTORUN то даъвати худат фаъол намешавад.
 
-GitHub-и private бояд барои ҳисоби воридшуда дастрас бошад. Агар git clone дастрас бошад:
+## Насб дар PowerShell (тавсияшаванда)
+Ин репо **private** аст, пас `irm ... | iex` кор намекунад — download-и беном 404 медиҳад. Як сатр: худаш clone мекунад, худаш боз мекунад, худаш насб мекунад ва папкаи муваққатиро тоза мекунад.
+
+```powershell
+$d="$env:TEMP\codex-setting"; Remove-Item $d -Recurse -Force -ErrorAction SilentlyContinue; git clone -q https://github.com/safarovmurod/codex-setting.git $d; & "$d\bootstrap.ps1"
+```
+
+Агар clone-и доимӣ хоҳӣ:
 ```powershell
 git clone https://github.com/safarovmurod/codex-setting.git
 Set-Location codex-setting
-.\Install.ps1
+.\bootstrap.ps1
 ```
-Дар ПК-и бе ChatGPT installer манбаи расмии Windows-ро мекушояд/насб мекунад; sign-in ва омодашавии native runtime амали соҳиби ҳисоб мемонад. Баъд ҳамон Install.ps1-ро такрор кун. Дар ПК-и мавҷуда дубора насби барнома лозим нест.
+Дар clone `bootstrap.ps1` чизе download намекунад — ҳамон папкаи назди худашро насб мекунад.
 
-Ҷойи пешфарз — Documents-и воқеии Windows, ҷузвдони CodexSetting. -InstallRoot барои ҷузвдони ҷудои дигар дастрас аст. Насб пеш аз ивазкунӣ backup мекунад, payload-ро бо SHA-256 месанҷад ва танҳо task-и худашро идора мекунад.
+Санҷиш баъди насб:
+```powershell
+.\bootstrap.ps1 -Action doctor
+```
+
+`git` лозим аст (бо ҳисоби GitHub-и воридшуда). Агар `git` набошад, bootstrap download-и ZIP-ро меозмояд — он танҳо барои репои public кор мекунад.
+
+`bootstrap.ps1` худаш root-и насбро аз `~/.codex/codex-setting.json` мегирад, пас насби такрорӣ ҳамон ҷои кӯҳнаро таъмир мекунад ва нусхаи дуюм намесозад. Дар ПК-и нав ҷойи пешфарз — Documents-и воқеии Windows, ҷузвдони `CodexSetting`. `-InstallRoot` барои ҷузвдони дигар; `-NoStartup` task-и logon-ро намесозад.
+
+Дар ПК-и бе ChatGPT installer манбаи расмии Windows-ро мекушояд/насб мекунад; sign-in ва омодашавии native runtime амали соҳиби ҳисоб мемонад. Баъд ҳамон командаро такрор кун. Дар ПК-и мавҷуда дубора насби барнома лозим нест. `codex.exe` дар PATH набошад ҳам кор мекунад — роҳаш аз `config.toml` ва `%LOCALAPPDATA%\OpenAI\Codex\bin` ёфта мешавад.
+
+Насб пеш аз ивазкунӣ backup мекунад, payload-ро бо SHA-256 месанҷад ва танҳо task-и худашро идора мекунад.
 
 ## Чӣ ба куҷо меравад
 | Чиз | Ҷой |
 |---|---|
 | Қоидаҳои пурра ва гапзанӣ | ~/.codex/AGENTS.md |
-| Настройкаҳои portable ва 5 скилли хомӯш | ~/.codex/config.toml |
+| Настройкаҳои portable ва 6 сатри скилл (5 хомӯш + `mansur-frontend-mentor` фаъол) | ~/.codex/config.toml |
 | 34 скилли шахсӣ + AUTORUN | ~/.agents/skills |
 | Controller, Python ва backup | Root-и насб; ҷудо аз auth/session |
 | Personalization-и ChatGPT | Майдони воқеии Settings; [ҷараёни автоматии агент](docs/personalization.md) |
@@ -47,16 +65,21 @@ Set-Location codex-setting
 Модел, reasoning, account ва approvals иваз намешаванд; reset credit ё API fallback истифода намешавад. Қадами кӯҳнаи warm-up бо дархости OK дар ҷараёни нав нест.
 
 ## Идоракунӣ
+Аз ҳар ҷо, бо роҳи насбшуда (`<root>\app`):
 ```powershell
-.\CodexSetting.ps1 doctor
-.\CodexSetting.ps1 runtime-doctor
-.\CodexSetting.ps1 status
-.\CodexSetting.ps1 repair
-.\CodexSetting.ps1 uninstall
+& "$([IO.Path]::Combine((Get-Content "$env:USERPROFILE\.codex\codex-setting.json" -Raw | ConvertFrom-Json).root,'app','CodexSetting.ps1'))" doctor
+```
+Ё содатар, аз clone:
+```powershell
+.\bootstrap.ps1 -Action doctor
+.\bootstrap.ps1 -Action runtime-doctor
+.\bootstrap.ps1 -Action status
+.\bootstrap.ps1 -Action repair
+.\bootstrap.ps1 -Action uninstall
 ```
 uninstall файлҳои тағйирнадодаи насбшударо ба backup бармегардонад; тағйироти баъдии худатро намепӯшонад. Backups ва receipt-ҳо барои санҷиш мемонанд. Task-ҳои кӯҳнаи CodexAutoStart баъди migration хомӯш мемонанд, то recovery-и глобалӣ худ аз худ барнагардад; XML-и пешина барои барқароркунии интихобии соҳиби ҳисоб нигоҳ дошта мешавад.
 
-Uninstall ҳоло cache-и плагини маҳаллии AUTORUN-ро пурра тоза намекунад. Насби ҷории шеф дар D:/User/CodexAutoStart/CodexSetting аст; роҳи recovery аз descriptor хонда мешавад. Дар ПК-и нав роҳҳои қоидаҳо барои ҳамон ПК сохта мешаванд.
+Uninstall ҳоло cache-и плагини маҳаллии AUTORUN-ро пурра тоза намекунад. Роҳи насби ҷорӣ аз `~/.codex/codex-setting.json` (калиди `root`) хонда мешавад — дар ПК-и ҳозираи шеф ин `Documents\CodexSetting-Preferences` аст. Дар ПК-и нав роҳҳои қоидаҳо барои ҳамон ПК сохта мешаванд.
 
 ## Плагинҳо — manual
 Мақсад аз ном муайян аст: GitHub — репо; Google Drive — файлҳои Drive; Supabase — база; Vercel — deployment; Figma/Designer/AI Graphic Design — дизайн; Context7/Exa — documentation/search; Browser Use — браузер; Writing Style — услуб; Data — таҳлил. Ads Manager ва MagicPath дар snapshot хомӯш буданд: насбкунанда онҳоро фаъол намекунад.
