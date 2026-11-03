@@ -56,6 +56,8 @@ Set-Location codex-setting
 ```
 uninstall файлҳои тағйирнадодаи насбшударо ба backup бармегардонад; тағйироти баъдии худатро намепӯшонад. Backups ва receipt-ҳо барои санҷиш мемонанд. Task-ҳои кӯҳнаи CodexAutoStart баъди migration хомӯш мемонанд, то recovery-и глобалӣ худ аз худ барнагардад; XML-и пешина барои барқароркунии интихобии соҳиби ҳисоб нигоҳ дошта мешавад.
 
+Тозаи пурраи Codex/ChatGPT дар ПК (на танҳо ин насб): `.\scripts\Remove-CodexChatGPT.ps1` аввал фақат рӯйхат нишон медиҳад; `-Delete` ҷузвдонҳоро ба Recycle Bin мебарад ва task-ҳоро нест мекунад; `-RemoveApps` барномаҳоро ҳам; `-IncludeWorkspace` Documents\Codex-ро ҳам. Ҳисоби ChatGPT дар сервер дастӣ тоза мешавад.
+
 Uninstall ҳоло cache-и плагини маҳаллии AUTORUN-ро пурра тоза намекунад. Насби ҷории шеф дар D:/User/CodexAutoStart/CodexSetting аст; роҳи recovery аз descriptor хонда мешавад. Дар ПК-и нав роҳҳои қоидаҳо барои ҳамон ПК сохта мешаванд.
 
 ## Плагинҳо — manual
