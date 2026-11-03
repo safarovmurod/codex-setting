@@ -35,6 +35,11 @@ class InstallationTests(unittest.TestCase):
         self.assertEqual(first['host_id'],second['host_id']);self.assertEqual(len(first['files']),len(second['files']))
         self.assertTrue(tomllib.loads(cfg.read_text())['unrelated']['keep'])
         self.assertFalse(uninstall(self.dest)['conflicts']);self.assertEqual(cfg.read_bytes(),original)
+    def test_install_keeps_existing_model_choices(self):
+        (self.user/'.codex').mkdir(parents=True)
+        (self.user/'.codex/config.toml').write_text(toml_dump({'model':'gpt-6.1-terra','model_reasoning_effort':'ultra','service_tier':'priority'}),encoding='utf-8')
+        self.run_install();cfg=tomllib.loads((self.user/'.codex/config.toml').read_text())
+        self.assertEqual(cfg['model'],'gpt-6.1-terra');self.assertEqual(cfg['model_reasoning_effort'],'ultra');self.assertEqual(cfg['service_tier'],'priority')
     def test_uninstall_preserves_later_owner_edits(self):
         self.run_install();p=self.user/'.codex/AGENTS.md';p.write_text('later owner change')
         result=uninstall(self.dest);self.assertIn(str(p),result['conflicts']);self.assertEqual(p.read_text(),'later owner change')
