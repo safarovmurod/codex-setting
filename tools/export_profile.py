@@ -12,6 +12,8 @@ ROOT=Path(__file__).resolve().parents[1]
 PORTABLE={'project_doc_max_bytes','model','model_reasoning_effort','service_tier','desktop','windows','skills','features','memories','tui'}
 DEVICE_DESKTOP={'projectlessWorkspaceRoot','git-worktree-root','microphoneInputDeviceId','open-in-target-preferences'}
 IGNORED_DIRS={'.git','__pycache__','node_modules','.venv','.cache'}
+# Removed 2026-11-03 by owner decision: unknown third-party browser binary; stays disabled in config if a copy remains.
+EXCLUDED_SKILLS={'autoglm-browser-agent'}
 FORBIDDEN={'auth.json','credentials.json','cookies.json','state.json','.env'}
 EXTS={'.md','.py','.ps1','.sh','.ts','.tsx','.js','.mjs','.cjs','.json','.yaml','.yml','.toml','.txt','.html','.css','.svg','.png','.jpg','.jpeg','.webp','.csv','.gitignore'}
 
@@ -47,7 +49,7 @@ def main():
     (out/'AGENTS.md').write_text(agents,encoding='utf-8')
     names=[];excluded=[]
     for skill in sorted(a.skills.iterdir()):
-        if not skill.is_dir() or not (skill/'SKILL.md').is_file():continue
+        if not skill.is_dir() or not (skill/'SKILL.md').is_file() or skill.name in EXCLUDED_SKILLS:continue
         names.append(skill.name)
         for f in skill.rglob('*'):
             rel=f.relative_to(skill)
@@ -55,15 +57,14 @@ def main():
             if f.is_symlink():raise ValueError('SKILL_SYMLINK_REQUIRES_REVIEW:'+str(rel))
             if f.name.lower() in FORBIDDEN or f.suffix.lower() in ['.sqlite','.db','.pem','.key'] or f.name.startswith('.env'):
                 raise ValueError('PRIVATE_SKILL_FILE_REFUSED:'+str(rel))
-            reviewed_binary=skill.name=='autoglm-browser-agent' and rel.as_posix()=='dist/autoglm-browser-service.exe'
-            if f.suffix.lower() not in EXTS and f.name not in ['LICENSE','NOTICE','.gitignore'] and not reviewed_binary:
+            if f.suffix.lower() not in EXTS and f.name not in ['LICENSE','NOTICE','.gitignore']:
                 excluded.append(skill.name+'/'+rel.as_posix());continue
             data=f.read_bytes()
             if re.search(rb'(?:gh[pousr]_[A-Za-z0-9]{30,}|sk-(?:proj-)?[A-Za-z0-9_-]{35,}|-----BEGIN (?:RSA |OPENSSH )?PRIVATE KEY-----)',data):
                 raise ValueError('POSSIBLE_SECRET_REFUSED:'+str(rel))
             dst=out/'skills'/skill.name/rel;dst.parent.mkdir(parents=True,exist_ok=True);dst.write_bytes(data)
     if excluded:raise ValueError('REVIEW_UNSUPPORTED_SKILL_FILES:'+json.dumps(excluded))
-    if len(names)!=35:raise ValueError('EXPECTED_35_PERSONAL_SKILLS:'+str(len(names)))
+    if len(names)!=34:raise ValueError('EXPECTED_34_PERSONAL_SKILLS:'+str(len(names)))
     audit=json.loads(a.plugin_audit.read_text(encoding='utf-8'))
     plugins=[{k:p.get(k) for k in ['name','id','displayName','enabled','marketplace','installPolicy']} for p in audit['plugins'] if p['installed']]
     profile={'schema':1,'config':portable,'personal_skills':names,'plugins_manual':plugins,

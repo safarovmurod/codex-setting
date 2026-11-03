@@ -25,3 +25,5 @@ Dependencies: T001→T002→US1/US2→T007→US3. Local fixture tests are indepe
 - [x] T017 Install updated host entrypoints and upload account plugin 1.1.0; verify positive latest-human classification on the real host without a model request.
 - [x] T018 Consolidate payload AGENTS.md, align stack to JSX + MUI, limit Spec Kit to large work, enable mansur-frontend-mentor; tests and release scan pass on Linux.
 - [ ] T019 Re-run Install.ps1/doctor on the Windows host and re-save ChatGPT Custom Instructions from the updated profile; record read-back.
+- [x] T020 Remove autoglm-browser-agent and its executable from payload/export; keep disabled config entry; add auto-recommended choice and verification rules to AGENTS.md.
+- [ ] T021 On the Windows host, delete any leftover ~/.agents/skills/autoglm-browser-agent and ~/.openclaw-autoclaw only after owner review.

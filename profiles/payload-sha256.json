@@ -1,8 +1,7 @@
 {
-  "AGENTS.md": "9852886614a50166d921d57457ffb8b962b561782b5650f9824d2fb747e9e81c",
+  "AGENTS.md": "c33d9372a23f6d6f8d4e263bee3c3675d75fd5d5873951d7aec4de5320788a29",
   "skills/agent-browser/SKILL.md": "1d05fa0e371dc23591093e5af2a244b0c0129cce17f5309442185f4ad811ad1a",
   "skills/android-cli/SKILL.md": "df679d859524ac8dc164c2098e5b61a8966ba07589d4b407aa064a30e2d4fadd",
-  "skills/autoglm-browser-agent/SKILL.md": "bbb31b8bade95d13f9552b3b822ac11dfcbe7819f454838ff6328d0f7b06f618",
   "skills/automate/SKILL.md": "cb0b639f31646d00db55d002b4716367cacdf50e27754166767d699806307036",
   "skills/autopilot/SKILL.md": "4737c7981ce69f139bdc1945fb09fd1cfc727d2d1be376236288f22ace1b1050",
   "skills/canvas/SKILL.md": "19b2d8d50cc45c125c4320e5b9a032968e148b5f0e96de9f7f0682384a8e51b0",
@@ -43,7 +42,6 @@
   "skills/android-cli/agents/openai.yaml": "8619a54e8c098122a7f3881394f84ca89b684366e848233a29ad18b6ec363935",
   "skills/android-cli/references/interact.md": "01bb96c3c79b686015da38d2aecbcc7206ed3acc4394483e95c31d5bc958a5b9",
   "skills/android-cli/references/journeys.md": "ab117e2883a4700d28f0a9f847a1e3460147531de218f2008ceb16cde4a3fd90",
-  "skills/autoglm-browser-agent/dist/autoglm-browser-service.exe": "c30d9cd48561accc401a04ad079237b43223e3550ba3ff2a712d944be10baa63",
   "skills/automate/agents/openai.yaml": "8619a54e8c098122a7f3881394f84ca89b684366e848233a29ad18b6ec363935",
   "skills/autopilot/agents/openai.yaml": "8619a54e8c098122a7f3881394f84ca89b684366e848233a29ad18b6ec363935",
   "skills/canvas/agents/openai.yaml": "8619a54e8c098122a7f3881394f84ca89b684366e848233a29ad18b6ec363935",
